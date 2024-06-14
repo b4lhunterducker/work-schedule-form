@@ -290,34 +290,33 @@
     }
 
     function handleSubmit(event) {
-    event.preventDefault();
-    const form = document.getElementById('scheduleForm');
-    const formData = new FormData(form);
-  
-    const storeNumber = formData.get('storeNumber');
-    const emailSubject = `Weekly Lunch Schedule - ${storeNumber}`;
-  
-    const emailBody = Array.from(formData.entries()).map(([key, value]) => `${key}: ${value}`).join('\n');
-  
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxngP1P4s9kCs4zDezkqoMIqgOUCH0Q6WqlbzrTpBDYV8Sm1oahCQ1PffFUVJs40mvg0Q/exec';
-    const callbackName = 'callback' + Math.random().toString(36).substr(2, 5); // Generate a random callback function name
-  
-    window[callbackName] = function(response) {
-      if (response.status === 'success') {
-        alert('Schedule submitted successfully!');
-        form.reset();
-        document.getElementById('employeeFields').innerHTML = '';
-      } else {
+      event.preventDefault();
+      const form = document.getElementById('scheduleForm');
+      const formData = new FormData(form);
+    
+      const storeNumber = formData.get('storeNumber');
+      const emailSubject = `Weekly Lunch Schedule - ${storeNumber}`;
+    
+      const emailBody = Array.from(formData.entries()).map(([key, value]) => `${key}: ${value}`).join('\n');
+    
+      fetch('https://script.google.com/macros/s/AKfycby0uuvg4OYahpSb9zxBqACogX6UG0OrB-6Ra0jHoQjHRJYoH-vBy0mkdKebfcgfupyTMQ/exec', {
+        method: 'POST',
+        body: formData
+      }).then(response => {
+        if (response.ok) {
+          alert('Schedule submitted successfully!');
+          form.reset();
+          document.getElementById('employeeFields').innerHTML = '';
+        } else {
+          alert('Error submitting schedule. Please try again.');
+        }
+      }).catch(error => {
+        console.error('Error:', error);
         alert('Error submitting schedule. Please try again.');
-      }
-    };
-  
-    const script = document.createElement('script');
-    script.src = `${scriptURL}?callback=${callbackName}&${new URLSearchParams(formData).toString()}`;
-    document.body.appendChild(script);
-  }
-
-  document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
+      });
+    }
+    
+    document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
 
   </script>
 </body>
