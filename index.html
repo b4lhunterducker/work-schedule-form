@@ -121,7 +121,7 @@
   <header>
     <div class="container" text-align="center" bottom-padding="50px" display="inline-block">
       <img id="logo" src="./Brakes-4-Less-Logo-1.png" />
-      <h1 text-color="white">Weekly Lunch Schedule V1</h1>
+      <h1 text-color="white">Weekly Lunch Schedule V2</h1>
     </div>
   </header>
 
@@ -294,27 +294,25 @@
       const form = document.getElementById('scheduleForm');
       const formData = new FormData(form);
     
+      const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
       const scriptURL = 'https://script.google.com/macros/s/AKfycbwYFx5_sIUGLsfBQVJ3lIJRr-7Hr7bpLPbH-cUHvjzj-DSjbpFgW-b4vBS_C9AQxCkHOA/exec';
     
-      fetch(scriptURL, {
+      fetch(proxyUrl + scriptURL, {
         method: 'POST',
         mode: 'cors',
         body: formData
       })
       .then(response => {
-        if (response.ok) {
-          alert('Schedule submitted successfully!');
-          form.reset();
-          document.getElementById('employeeFields').innerHTML = '';
-        } else {
-          throw new Error('Network response was not ok');
-        }
+        alert('Schedule submitted successfully!');
+        form.reset();
+        document.getElementById('employeeFields').innerHTML = '';
       })
       .catch(error => {
         alert('Error submitting schedule. Please try again.');
         console.error('Error:', error);
       });
     }
+
 
     
     document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
