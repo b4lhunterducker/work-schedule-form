@@ -294,17 +294,19 @@
       const form = document.getElementById('scheduleForm');
       const formData = new FormData(form);
     
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbybun8zn4fZE41E8LTqSZLEIuLx5Gq-zB1CPpBfuYiIsPRCtwU3cUktVA3f4nywr0lj4g/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbylEU0-_wwIZi5SKyaigGZ4n1NF8nz2mI0qdwDFhQh-TfErVPtuHGtwnsftCPDWQD6gtw/exec';
     
       fetch(scriptURL, {
         method: 'POST',
-        mode: 'no-cors',
-        body: formData
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(Object.fromEntries(formData))
       })
       .then(response => {
         alert('Schedule submitted successfully!');
         form.reset();
-        document.getElementById('employeeFields').innerHTML = '';
       })
       .catch(error => {
         alert('Error submitting schedule. Please try again.');
@@ -312,12 +314,7 @@
       });
     }
 
-document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
-
-    
     document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
-
-
 
   </script>
 </body>
