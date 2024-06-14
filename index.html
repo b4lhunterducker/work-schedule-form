@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Lunch Schedule Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 800px;
+    }
+    h1 {
+      text-align: center;
+      color: #0056b3;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, select, button {
+      margin-top: 5px;
+      margin-bottom: 15px;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #0056b3;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #003d80;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #0056b3;
+      color: white;
+    }
+    .employeeField {
+      margin-bottom: 20px;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto;
+      max-width: 150px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="your-company-logo-url.png" alt="Company Logo" class="logo">
+    <h1>Weekly Lunch Schedule Form</h1>
+    <form id="lunchScheduleForm" onsubmit="handleSubmit(event)">
+      <label for="storeNumber">Store Number:</label>
+      <input type="text" id="storeNumber" name="storeNumber" required><br><br>
+      
+      <div id="employeeFields">
+        <div class="employeeField">
+          <label for="employeeName">Employee Name:</label>
+          <input type="text" name="employeeName" required>
+          <table>
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Lunch Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Monday</td>
+                <td>
+                  <select name="mondayTime" required>
+                    <option value="11:00-11:30">11:00 - 11:30</option>
+                    <option value="11:30-12:00">11:30 - 12:00</option>
+                    <option value="12:00-12:30">12:00 - 12:30</option>
+                    <option value="12:30-1:00">12:30 - 1:00</option>
+                    <option value="1:00-1:30">1:00 - 1:30</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Tuesday</td>
+                <td>
+                  <select name="tuesdayTime" required>
+                    <option value="11:00-11:30">11:00 - 11:30</option>
+                    <option value="11:30-12:00">11:30 - 12:00</option>
+                    <option value="12:00-12:30">12:00 - 12:30</option>
+                    <option value="12:30-1:00">12:30 - 1:00</option>
+                    <option value="1:00-1:30">1:00 - 1:30</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Wednesday</td>
+                <td>
+                  <select name="wednesdayTime" required>
+                    <option value="11:00-11:30">11:00 - 11:30</option>
+                    <option value="11:30-12:00">11:30 - 12:00</option>
+                    <option value="12:00-12:30">12:00 - 12:30</option>
+                    <option value="12:30-1:00">12:30 - 1:00</option>
+                    <option value="1:00-1:30">1:00 - 1:30</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Thursday</td>
+                <td>
+                  <select name="thursdayTime" required>
+                    <option value="11:00-11:30">11:00 - 11:30</option>
+                    <option value="11:30-12:00">11:30 - 12:00</option>
+                    <option value="12:00-12:30">12:00 - 12:30</option>
+                    <option value="12:30-1:00">12:30 - 1:00</option>
+                    <option value="1:00-1:30">1:00 - 1:30</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Friday</td>
+                <td>
+                  <select name="fridayTime" required>
+                    <option value="11:00-11:30">11:00 - 11:30</option>
+                    <option value="11:30-12:00">11:30 - 12:00</option>
+                    <option value="12:00-12:30">12:00 - 12:30</option>
+                    <option value="12:30-1:00">12:30 - 1:00</option>
+                    <option value="1:00-1:30">1:00 - 1:30</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Saturday</td>
+                <td>
+                  <select name="saturdayTime" required>
+                    <option value="11:00-11:30">11:00 - 11:30</option>
+                    <option value="11:30-12:00">11:30 - 12:00</option>
+                    <option value="12:00-12:30">12:00 - 12:30</option>
+                    <option value="12:30-1:00">12:30 - 1:00</option>
+                    <option value="1:00-1:30">1:00 - 1:30</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <button type="button" onclick="addEmployeeField()">Add Employee</button><br><br>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    function addEmployeeField() {
+      const employeeFields = document.getElementById('employeeFields');
+      const newField = document.createElement('div');
+      newField.className = 'employeeField';
+      newField.innerHTML = `
+        <label for="employeeName">Employee Name:</label>
+        <input type="text" name="employeeName" required>
+        <table>
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Lunch Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Monday</td>
+              <td>
+                <select name="mondayTime" required>
+                  <option value="11:00-11:30">11:00 - 11:30</option>
+                  <option value="11:30-12:00">11:30 - 12:00</option>
+                  <option value="12:00-12:30">12:00 - 12:30</option>
+                  <option value="12:30-1:00">12:30 - 1:00</option>
+                  <option value="1:00-1:30">1:00 - 1:30</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Tuesday</td>
+              <td>
+                <select name="tuesdayTime" required>
+                  <option value="11:00-11:30">11:00 - 11:30</option>
+                  <option value="11:30-12:00">11:30 - 12:00</option>
+                  <option value="12:00-12:30">12:00 - 12:30</option>
+                  <option value="12:30-1:00">12:30 - 1:00</option>
+                  <option value="1:00-1:30">1:00 - 1:30</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Wednesday</td>
+              <td>
+                <select name="wednesdayTime" required>
+                  <option value="11:00-11:30">11:00 - 11:30</option>
+                  <option value="11:30-12:00">11:30 - 12:00</option>
+                  <option value="12:00-12:30">12:00 - 12:30</option>
+                  <option value="12:30-1:00">12:30 - 1:00</option>
+                  <option value="1:00-1:30">1:00 - 1:30</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Thursday</td>
+              <td>
+                <select name="thursdayTime" required>
+                  <option value="11:00-11:30">11:00 - 11:30</option>
+                  <option value="11:30-12:00">11:30 - 12:00</option>
+                  <option value="12:00-12:30">12:00 - 12:30</option>
+                  <option value="12:30-1:00">12:30 - 1:00</option>
+                  <option value="1:00-1:30">1:00 - 1:30</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Friday</td>
+              <td>
+                <select name="fridayTime" required>
+                  <option value="11:00-11:30">11:00 - 11:30</option>
+                  <option value="11:30-12:00">11:30 - 12:00</option>
+                  <option value="12:00-12:30">12:00 - 12:30</option>
+                  <option value="12:30-1:00">12:30 - 1:00</option>
+                  <option value="1:00-1:30">1:00 - 1:30</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Saturday</td>
+              <td>
+                <select name="saturdayTime" required>
+                  <option value="11:00-11:30">11:00 - 11:30</option>
+                  <option value="11:30-12:00">11:30 - 12:00</option>
+                  <option value="12:00-12:30">12:00 - 12:30</option>
+                  <option value="12:30-1:00">12:30 - 1:00</option>
+                  <option value="1:00-1:30">1:00 - 1:30</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+      employeeFields.appendChild(newField);
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const data = {};
+      formData.forEach((value, key) => {
+        if (!data[key]) {
+          data[key] = [];
+        }
+        data[key].push(value);
+      });
+      
+      fetch('https://your-google-apps-script-url', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then(response => {
+        alert('Form submitted successfully!');
+      }).catch(error => {
+        console.error('Error submitting form:', error);
+      });
+    }
+  </script>
+</body>
+</html>
