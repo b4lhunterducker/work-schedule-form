@@ -4,6 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://d3j0t7vrtr92dk.cloudfront.net/brakes4less/1691091298_favicon.png" rel="shortcut icon">
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const queryString = new URLSearchParams(formData).toString();
+      const script = document.createElement('script');
+      script.src = `https://script.google.com/macros/s/AKfycbyjt3oajGq0Sy-MhgaZLc0VvPOgU3i5kkMYLPDDsOpkt_b-pSBliGdIHuqwtm_1OHrXBg/exec?callback=jsonpCallback&${queryString}`;
+      document.body.appendChild(script);
+    }
+
+    function jsonpCallback(response) {
+      console.log('Response from server:', response);
+    }
+  </script>
   <title>Weekly Lunch Schedule</title>
   <style>
     body {
@@ -121,13 +135,13 @@
   <header>
     <div class="container" text-align="center" bottom-padding="50px" display="inline-block">
       <img id="logo" src="./Brakes-4-Less-Logo-1.png" />
-      <h1 text-color="white">Weekly Lunch Schedule V97</h1>
+      <h1 text-color="white">Weekly Lunch Schedule V98</h1>
     </div>
   </header>
 
   <div class="container">
     <div class="main-content">
-      <form id="scheduleForm">
+      <form id="scheduleForm" onsubmit="handleSubmit(event)">
         <div class="form-group">
           <label for="storeNumber">Store Number</label>
           <select id="storeNumber" name="storeNumber" required>
@@ -288,30 +302,6 @@
       const employeeEntry = button.parentNode;
       employeeEntry.remove();
     }
-
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-      const formData = new FormData(form);
-      try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbwgcq8PK_DGQAUz9tvTYzu6kQalmOn3GcDv9qLaTggN12HtlXrF2PTzEJCtb7qZ_b5FAA/exec', {
-          method: 'POST',
-          body: JSON.stringify(Object.fromEntries(formData)),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        const data = await response.json();
-        alert(data.status);
-        form.reset();
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Error submitting schedule. Please try again.');
-      }
-    };
-    
-    // Add event listener to the form
-    const form = document.getElementById('scheduleForm');
-    form.addEventListener('submit', handleSubmit);
 
   </script>
 </body>
