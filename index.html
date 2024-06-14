@@ -294,30 +294,26 @@
       const form = document.getElementById('scheduleForm');
       const formData = new FormData(form);
     
-      const storeNumber = formData.get('storeNumber');
-      const emailSubject = `Weekly Lunch Schedule - ${storeNumber}`;
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbxbV2HydnF7DUR7KddTOSTw5Z8JYOrf5aHijGxa5PO3TEm9jnPCsnIZC2I8LYXG1HXoog/exec';
     
-      const emailBody = Array.from(formData.entries()).map(([key, value]) => `${key}: ${value}`).join('\n');
-    
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbzrqEfE6YNpm8NDvo9K7Qhfj-u687u-DslIFD5bxyEUZh1XLBcEoiEVoUlqoBQWEoDExQ/exec';
-      const callbackName = 'callback' + Math.random().toString(36).substr(2, 5); // Generate a random callback function name
-    
-      window[callbackName] = function(response) {
-        if (response.status === 'success') {
-          alert('Schedule submitted successfully!');
-          form.reset();
-          document.getElementById('employeeFields').innerHTML = '';
-        } else {
-          alert('Error submitting schedule. Please try again.');
-        }
-      };
-    
-      const script = document.createElement('script');
-      script.src = `${scriptURL}?callback=${callbackName}&${new URLSearchParams(formData).toString()}`;
-      document.body.appendChild(script);
+      fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+      })
+      .then(response => {
+        alert('Schedule submitted successfully!');
+        form.reset();
+        document.getElementById('employeeFields').innerHTML = '';
+      })
+      .catch(error => {
+        alert('Error submitting schedule. Please try again.');
+        console.error('Error:', error);
+      });
     }
     
     document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
+
 
 
   </script>
