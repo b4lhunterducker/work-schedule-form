@@ -121,7 +121,7 @@
   <header>
     <div class="container" text-align="center" bottom-padding="50px" display="inline-block">
       <img id="logo" src="./Brakes-4-Less-Logo-1.png" />
-      <h1 text-color="white">Weekly Lunch Schedule V1</h1>
+      <h1 text-color="white">Weekly Lunch Schedule V2</h1>
     </div>
   </header>
 
@@ -294,12 +294,11 @@
       const form = document.getElementById('scheduleForm');
       const formData = new FormData(form);
     
-      const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbxrndkDzhlalv5Gi5N3hrfKyf-BsjT33Il6XZX-DEnKOqUBnEp2uDhUKwced20r0uhHlg/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbybun8zn4fZE41E8LTqSZLEIuLx5Gq-zB1CPpBfuYiIsPRCtwU3cUktVA3f4nywr0lj4g/exec';
     
-      fetch(proxyUrl + scriptURL, {
+      fetch(scriptURL, {
         method: 'POST',
-        mode: 'cors',
+        mode: 'no-cors',
         body: formData
       })
       .then(response => {
@@ -313,6 +312,7 @@
       });
     }
 
+document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
 
     
     document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
