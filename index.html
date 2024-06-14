@@ -121,7 +121,7 @@
   <header>
     <div class="container" text-align="center" bottom-padding="50px" display="inline-block">
       <img id="logo" src="./Brakes-4-Less-Logo-1.png" />
-      <h1 text-color="white">Weekly Lunch Schedule V1</h1>
+      <h1 text-color="white">Weekly Lunch Schedule V2</h1>
     </div>
   </header>
 
@@ -294,23 +294,28 @@
       const form = document.getElementById('scheduleForm');
       const formData = new FormData(form);
     
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbzXO6jcnfo4zCtTRQvaaCOH2sxJh_pH44JKpSan6QXjz5OpUGQE04ozdGSCSDV_jED8Eg/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbw22dLEPGEs7tJ_S0BTFA3ub1TVsSTZXhWmJPq1W50_iTYy2eafU27Cd0F6qR2kWxormQ/exec';
     
       fetch(scriptURL, {
         method: 'POST',
-        mode: 'no-cors',
+        mode: 'cors',
         body: formData
       })
       .then(response => {
-        alert('Schedule submitted successfully!');
-        form.reset();
-        document.getElementById('employeeFields').innerHTML = '';
+        if (response.ok) {
+          alert('Schedule submitted successfully!');
+          form.reset();
+          document.getElementById('employeeFields').innerHTML = '';
+        } else {
+          throw new Error('Network response was not ok');
+        }
       })
       .catch(error => {
         alert('Error submitting schedule. Please try again.');
         console.error('Error:', error);
       });
     }
+
     
     document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
 
