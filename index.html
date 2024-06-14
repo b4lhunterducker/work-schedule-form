@@ -25,10 +25,15 @@
       console.log('Response from server:', response);
       alert('Form submitted successfully!');
       document.querySelector('form').reset();
-      removeEmployee();
+      removeAllEmployees();
+    }
+
+    function removeAllEmployees() {
+      const entries = document.querySelectorAll('.employee-entry');
+      entries.forEach(entry => entry.remove());
     }
   </script>
-  <title>Weekly Lunch Schedule t</title>
+  <title>Weekly Lunch Schedule</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -145,7 +150,7 @@
   <header>
     <div class="container" text-align="center" bottom-padding="50px" display="inline-block">
       <img id="logo" src="./Brakes-4-Less-Logo-1.png" />
-      <h1 text-color="white">Weekly Lunch Schedule</h1>
+      <h1 text-color="white">Weekly Lunch Schedule t</h1>
     </div>
   </header>
 
