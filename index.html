@@ -294,7 +294,7 @@
       const form = document.getElementById('scheduleForm');
       const formData = new FormData(form);
     
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbzCOoiOwVGZ8kYDKgBsEDx6Gtkf5oJRAIdVdiHFi4q34vkgFyf-plde-LR0WArf0glYlQ/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbxaAidsq5Uu_BvkHbVGaCuH-lt2NWc0hBo9MAIKxu9mArmQJyGQf5ID6wJluc0CGbDVNg/exec';
     
       fetch(scriptURL, {
         method: 'POST',
@@ -304,12 +304,11 @@
         },
         body: JSON.stringify(Object.fromEntries(formData))
       })
-      .then(response => {
-        alert('Schedule submitted successfully!');
-        form.reset();
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
       })
       .catch(error => {
-        alert('Error submitting schedule. Please try again.');
         console.error('Error:', error);
       });
     }
