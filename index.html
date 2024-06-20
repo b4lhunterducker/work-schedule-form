@@ -184,7 +184,7 @@
         const date = new Date(startDate);
         date.setDate(date.getDate() + i);
         week1 += `<tr>
-          <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
+          <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' }))</td>
           <td>
             <select name="time_${i}" required>
               <option value="OFF">OFF</option>
