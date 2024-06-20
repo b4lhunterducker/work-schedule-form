@@ -17,7 +17,7 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = `https://script.google.com/macros/s/AKfycbyDzXj8xkPHIDZ2Wrnh2S1pQXxJ1rel4zIJ1AWJT5Lh61T6TM6CB_Gu1hz36_W2j5C61Q/exec?callback=jsonpCallback&${queryString}`;
+      script.src = `https://script.google.com/macros/s/AKfycbzS9SeA9Ef2CYIc0qTBZYgq4Oj8kmXBC5a19_kqGE6hdv31k_DOYmSCqGdnd4kE3xhS-w/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
 
@@ -40,13 +40,25 @@
       
       const startDate = new Date(document.getElementById('startDate').value);
       const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      let dateOptions = '';
+      let rows = '';
       for (let i = 0; i < 14; i++) {
         const date = new Date(startDate);
         date.setDate(date.getDate() + i);
-        dateOptions += `<option value="${date.toISOString().split('T')[0]}">${dayNames[date.getDay()]} ${date.toISOString().split('T')[0]}</option>`;
+        rows += `<tr>
+          <td>${dayNames[date.getDay()]} (${date.toLocaleDateString()})</td>
+          <td>
+            <select name="time_${i}" required>
+              <option value="OFF">OFF</option>
+              <option value="11:00-11:30">11:00 - 11:30</option>
+              <option value="11:30-12:00">11:30 - 12:00</option>
+              <option value="12:00-12:30">12:00 - 12:30</option>
+              <option value="12:30-1:00">12:30 - 1:00</option>
+              <option value="1:00-1:30">1:00 - 1:30</option>
+            </select>
+          </td>
+        </tr>`;
       }
-      
+
       newField.innerHTML = `
         <div class="form-group">
           <label for="employeeName">Employee Name</label>
@@ -60,20 +72,7 @@
             </tr>
           </thead>
           <tbody>
-            ${dateOptions.split('</option>').map((option, index) => `
-            <tr>
-              <td>${option.split('>')[1] || ''}</td>
-              <td>
-                <select name="time_${index}" required>
-                  <option value="OFF">OFF</option>
-                  <option value="11:00-11:30">11:00 - 11:30</option>
-                  <option value="11:30-12:00">11:30 - 12:00</option>
-                  <option value="12:00-12:30">12:00 - 12:30</option>
-                  <option value="12:30-1:00">12:30 - 1:00</option>
-                  <option value="1:00-1:30">1:00 - 1:30</option>
-                </select>
-              </td>
-            </tr>`).join('')}
+            ${rows}
           </tbody>
         </table>
         <button type="button" class="remove-button" onclick="removeEmployee(this)">Remove</button>
@@ -128,7 +127,7 @@
       margin-top: 20px;
       box-shadow: 0 0 10px #ccc;
     }
-    #storeNumber {
+    #storeNumber, #startDate {
       width: 30%;
     }
     h1 {
@@ -155,18 +154,27 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-    #addButton {
+    #addButton, #submitButton {
       display: inline-block;
       padding: 10px 20px;
       font-size: 16px;
       color: #fff;
-      background-color: #2647ab;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin-right: 10px;
+    }
+    #addButton {
+      background-color: #2647ab;
     }
     #addButton:hover {
       background-color: #1c3378;
+    }
+    #submitButton {
+      background-color: #218f50;
+    }
+    #submitButton:hover {
+      background-color: #155e35;
     }
     .employee-section {
       margin-top: 20px;
@@ -188,22 +196,6 @@
       margin: 0 auto;
       bottom-padding: 50px;
     }
-
-    #submitButton {
-      display: inline-block;
-      padding: 10px 20px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #218f50;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    
-    #submitButton:hover {
-      background-color: #155e35;
-    }
-    
     .remove-button {
       position: absolute;
       top: 10px;
@@ -215,7 +207,6 @@
       border-radius: 15px;  
       cursor: pointer;
     }
-
     .remove-button:hover {
       background-color: #ad2b2b;
     }
@@ -275,7 +266,7 @@
             <option value="Admin">Admin</option>
           </select>
         </div>
-        <div class="form-group">
+       <div class="form-group">
           <label for="startDate">Starting Date</label>
           <input type="date" id="startDate" name="startDate" required>
         </div>
@@ -283,8 +274,6 @@
           <h2>Employee Schedules</h2>
           <div id="employeeFields"></div>
           <button type="button" id="addButton" onclick="addEmployee()">Add Employee</button>
-        </div>
-        <div class="form-group">
           <button type="submit" id="submitButton">Submit Schedule</button>
         </div>
       </form>
