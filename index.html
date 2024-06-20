@@ -17,7 +17,7 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = `https://script.google.com/macros/s/AKfycbzS9SeA9Ef2CYIc0qTBZYgq4Oj8kmXBC5a19_kqGE6hdv31k_DOYmSCqGdnd4kE3xhS-w/exec?callback=jsonpCallback&${queryString}`;
+      script.src = `https://script.google.com/macros/s/AKfycbyDzXj8xkPHIDZ2Wrnh2S1pQXxJ1rel4zIJ1AWJT5Lh61T6TM6CB_Gu1hz36_W2j5C61Q/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
 
@@ -26,6 +26,7 @@
       alert('The schedule has been submitted to your District Manager.');
       document.querySelector('form').reset();
       removeAllEmployees();
+      document.getElementById('addButton').disabled = true;
     }
 
     function removeAllEmployees() {
@@ -37,15 +38,35 @@
       const employeeFields = document.getElementById('employeeFields');
       const newField = document.createElement('div');
       newField.className = 'employee-entry';
-      
+
       const startDate = new Date(document.getElementById('startDate').value);
-      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      let rows = '';
-      for (let i = 0; i < 14; i++) {
+      const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      let week1 = '';
+      let week2 = '';
+
+      for (let i = 0; i < 6; i++) {
         const date = new Date(startDate);
         date.setDate(date.getDate() + i);
-        rows += `<tr>
-          <td>${dayNames[date.getDay()]} (${date.toLocaleDateString()})</td>
+        week1 += `<tr>
+          <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
+          <td>
+            <select name="time_${i}" required>
+              <option value="OFF">OFF</option>
+              <option value="11:00-11:30">11:00 - 11:30</option>
+              <option value="11:30-12:00">11:30 - 12:00</option>
+              <option value="12:00-12:30">12:00 - 12:30</option>
+              <option value="12:30-1:00">12:30 - 1:00</option>
+              <option value="1:00-1:30">1:00 - 1:30</option>
+            </select>
+          </td>
+        </tr>`;
+      }
+
+      for (let i = 7; i < 13; i++) {
+        const date = new Date(startDate);
+        date.setDate(date.getDate() + i);
+        week2 += `<tr>
+          <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
             <select name="time_${i}" required>
               <option value="OFF">OFF</option>
@@ -64,17 +85,30 @@
           <label for="employeeName">Employee Name</label>
           <input type="text" name="employeeName" required>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Day</th>
-              <th>Lunch Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows}
-          </tbody>
-        </table>
+        <div style="display: flex; justify-content: space-between;">
+          <table>
+            <thead>
+              <tr>
+                <th>Week 1</th>
+                <th>Lunch Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${week1}
+            </tbody>
+          </table>
+          <table>
+            <thead>
+              <tr>
+                <th>Week 2</th>
+                <th>Lunch Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${week2}
+            </tbody>
+          </table>
+        </div>
         <button type="button" class="remove-button" onclick="removeEmployee(this)">Remove</button>
       `;
       employeeFields.appendChild(newField);
@@ -84,6 +118,12 @@
     function removeEmployee(button) {
       const employeeEntry = button.parentNode;
       employeeEntry.remove();
+    }
+
+    function checkDate() {
+      const startDate = document.getElementById('startDate').value;
+      const addButton = document.getElementById('addButton');
+      addButton.disabled = !startDate;
     }
   </script>
   <title>Bi-Weekly Work Schedule</title>
@@ -167,7 +207,11 @@
     #addButton {
       background-color: #2647ab;
     }
-    #addButton:hover {
+    #addButton:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    #addButton:hover:enabled {
       background-color: #1c3378;
     }
     #submitButton {
@@ -227,6 +271,7 @@
           <label for="storeNumber">Store Number</label>
           <select id="storeNumber" name="storeNumber" required>
             <option value="">###</option>
+            <!-- Add store numbers here -->
             <option value="1">1</option>
             <option value="4">4</option>
             <option value="5">5</option>
@@ -266,14 +311,14 @@
             <option value="Admin">Admin</option>
           </select>
         </div>
-       <div class="form-group">
+        <div class="form-group">
           <label for="startDate">Starting Date</label>
-          <input type="date" id="startDate" name="startDate" required>
+          <input type="date" id="startDate" name="startDate" required onchange="checkDate()">
         </div>
         <div class="employee-section">
           <h2>Employee Schedules</h2>
           <div id="employeeFields"></div>
-          <button type="button" id="addButton" onclick="addEmployee()">Add Employee</button>
+          <button type="button" id="addButton" onclick="addEmployee()" disabled>Add Employee</button>
           <button type="submit" id="submitButton">Submit Schedule</button>
         </div>
       </form>
