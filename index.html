@@ -1,145 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://d3j0t7vrtr92dk.cloudfront.net/brakes4less/1691091298_favicon.png" rel="shortcut icon">
-  <script>
-    async function handleSubmit(event) {
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const data = {};
-      formData.forEach((value, key) => {
-        if (!data[key]) {
-          data[key] = [];
-        }
-        data[key].push(value);
+<script>
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = {};
+    formData.forEach((value, key) => {
+      if (!data[key]) {
+        data[key] = [];
+      }
+      data[key].push(value);
+    });
+    const queryString = new URLSearchParams(data).toString();
+
+    try {
+      const response = await fetch(`https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec?${queryString}`, {
+        method: 'GET',
+        mode: 'cors'
       });
-      const queryString = new URLSearchParams(data).toString();
-      
-      try {
-        const response = await fetch(`https://script.google.com/macros/s/AKfycbxEZKNK_sZ8O-SVs5C8i7Pd7iKUJfWDkrmJatsvkwlsAC-7Q4a7Evl77UEJx2CTbBe8Og/exec?${queryString}`, {
-          method: 'GET',
-          mode: 'cors'
-        });
-        
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        
-        const result = await response.json();
-        jsonpCallback(result);
-      } catch (error) {
-        console.error('Fetch error:', error);
-        alert('There was a problem submitting the schedule. Please try again.');
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
+
+      const result = await response.json();
+      jsonpCallback(result);
+    } catch (error) {
+      console.error('Fetch error:', error);
+      alert('There was a problem submitting the schedule. Please try again.');
     }
-  
-    function jsonpCallback(response) {
-      console.log('Response from server:', response);
-      alert('The schedule has been submitted to your District Manager.');
-      document.querySelector('form').reset();
-      removeAllEmployees();
-      document.getElementById('addButton').disabled = true;
+  }
+
+  function jsonpCallback(response) {
+    console.log('Response from server:', response);
+    alert('The schedule has been submitted to your District Manager.');
+    document.querySelector('form').reset();
+    removeAllEmployees();
+    document.getElementById('addButton').disabled = true;
+  }
+
+  function removeAllEmployees() {
+    const entries = document.querySelectorAll('.employee-entry');
+    entries.forEach(entry => entry.remove());
+  }
+
+  function addEmployee() {
+    const employeeFields = document.getElementById('employeeFields');
+    const newField = document.createElement('div');
+    newField.className = 'employee-entry';
+
+    const startDate = new Date(document.getElementById('startDate').value);
+    const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    let week1 = '';
+    let week2 = '';
+
+    for (let i = 0; i < 6; i++) {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + i);
+      week1 += `<tr>
+        <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
+        <td>
+          <select name="time_${i}" required>
+            <option value="OFF">OFF</option>
+            <option value="11:00-11:30">11:00 - 11:30</option>
+            <option value="11:30-12:00">11:30 - 12:00</option>
+            <option value="12:00-12:30">12:00 - 12:30</option>
+            <option value="12:30-1:00">12:30 - 1:00</option>
+            <option value="1:00-1:30">1:00 - 1:30</option>
+          </select>
+        </td>
+      </tr>`;
     }
-  
-    function removeAllEmployees() {
-      const entries = document.querySelectorAll('.employee-entry');
-      entries.forEach(entry => entry.remove());
+
+    for (let i = 7; i < 13; i++) {
+      const date = new Date(startDate);
+      date.setDate(date.getDate() + i);
+      week2 += `<tr>
+        <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})}</td>
+        <td>
+          <select name="time_${i}" required>
+            <option value="OFF">OFF</option>
+            <option value="11:00-11:30">11:00 - 11:30</option>
+            <option value="11:30-12:00">11:30 - 12:00</option>
+            <option value="12:00-12:30">12:00 - 12:30</option>
+            <option value="12:30-1:00">12:30 - 1:00</option>
+            <option value="1:00-1:30">1:00 - 1:30</option>
+          </select>
+        </td>
+      </tr>`;
     }
-  
-    function addEmployee() {
-      const employeeFields = document.getElementById('employeeFields');
-      const newField = document.createElement('div');
-      newField.className = 'employee-entry';
-  
-      const startDate = new Date(document.getElementById('startDate').value);
-      const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      let week1 = '';
-      let week2 = '';
-  
-      for (let i = 0; i < 6; i++) {
-        const date = new Date(startDate);
-        date.setDate(date.getDate() + i);
-        week1 += `<tr>
-          <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
-          <td>
-            <select name="time_${i}" required>
-              <option value="OFF">OFF</option>
-              <option value="11:00-11:30">11:00 - 11:30</option>
-              <option value="11:30-12:00">11:30 - 12:00</option>
-              <option value="12:00-12:30">12:00 - 12:30</option>
-              <option value="12:30-1:00">12:30 - 1:00</option>
-              <option value="1:00-1:30">1:00 - 1:30</option>
-            </select>
-          </td>
-        </tr>`;
-      }
-  
-      for (let i = 7; i < 13; i++) {
-        const date = new Date(startDate);
-        date.setDate(date.getDate() + i);
-        week2 += `<tr>
-          <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})}</td>
-          <td>
-            <select name="time_${i}" required>
-              <option value="OFF">OFF</option>
-              <option value="11:00-11:30">11:00 - 11:30</option>
-              <option value="11:30-12:00">11:30 - 12:00</option>
-              <option value="12:00-12:30">12:00 - 12:30</option>
-              <option value="12:30-1:00">12:30 - 1:00</option>
-              <option value="1:00-1:30">1:00 - 1:30</option>
-            </select>
-          </td>
-        </tr>`;
-      }
-  
-      newField.innerHTML = `
-        <div class="form-group">
-          <label for="employeeName">Employee Name</label>
-          <input type="text" name="employeeName" required>
-        </div>
-        <div class="week-section">
-          <table>
-            <thead>
-              <tr>
-                <th>Week 1</th>
-                <th>Lunch Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${week1}
-            </tbody>
-          </table>
-          <table>
-            <thead>
-              <tr>
-                <th>Week 2</th>
-                <th>Lunch Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${week2}
-            </tbody>
-          </table>
-        </div>
-        <button type="button" class="remove-button" onclick="removeEmployee(this)">Remove</button>
-      `;
-      employeeFields.appendChild(newField);
-      newField.scrollIntoView({ behavior: 'smooth' });
-    }
-  
-    function removeEmployee(button) {
-      const employeeEntry = button.parentNode;
-      employeeEntry.remove();
-    }
-  
-    function checkDate() {
-      const startDate = document.getElementById('startDate').value;
-      const addButton = document.getElementById('addButton');
-      addButton.disabled = !startDate;
-    }
-  </script>
+
+    newField.innerHTML = `
+      <div class="form-group">
+        <label for="employeeName">Employee Name</label>
+        <input type="text" name="employeeName" required>
+      </div>
+      <div class="week-section">
+        <table>
+          <thead>
+            <tr>
+              <th>Week 1</th>
+              <th>Lunch Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${week1}
+          </tbody>
+        </table>
+        <table>
+          <thead>
+            <tr>
+              <th>Week 2</th>
+              <th>Lunch Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${week2}
+          </tbody>
+        </table>
+      </div>
+      <button type="button" class="remove-button" onclick="removeEmployee(this)">Remove</button>
+    `;
+    employeeFields.appendChild(newField);
+    newField.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function removeEmployee(button) {
+    const employeeEntry = button.parentNode;
+    employeeEntry.remove();
+  }
+
+  function checkDate() {
+    const startDate = document.getElementById('startDate').value;
+    const addButton = document.getElementById('addButton');
+    addButton.disabled = !startDate;
+  }
+</script>
 
   <title>Bi-Weekly Work Schedule</title>
   <style>
