@@ -20,7 +20,7 @@
       script.src = `https://script.google.com/macros/s/AKfycbyg6Cci9tRCmtk-pPBJ94vix9cKgzyzNB6hd7cqxn40WnqfbnwmdBkMB70Xt0XBua8tiw/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
-
+  
     function jsonpCallback(response) {
       console.log('Response from server:', response);
       alert('The schedule has been submitted to your District Manager.');
@@ -28,22 +28,22 @@
       removeAllEmployees();
       document.getElementById('addButton').disabled = true;
     }
-
+  
     function removeAllEmployees() {
       const entries = document.querySelectorAll('.employee-entry');
       entries.forEach(entry => entry.remove());
     }
-
+  
     function addEmployee() {
       const employeeFields = document.getElementById('employeeFields');
       const newField = document.createElement('div');
       newField.className = 'employee-entry';
-
+  
       const startDate = new Date(document.getElementById('startDate').value);
       const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       let week1 = '';
       let week2 = '';
-
+  
       for (let i = 0; i < 6; i++) {
         const date = new Date(startDate);
         date.setDate(date.getDate() + i);
@@ -61,7 +61,7 @@
           </td>
         </tr>`;
       }
-
+  
       for (let i = 7; i < 13; i++) {
         const date = new Date(startDate);
         date.setDate(date.getDate() + i);
@@ -79,7 +79,7 @@
           </td>
         </tr>`;
       }
-
+  
       newField.innerHTML = `
         <div class="form-group">
           <label for="employeeName">Employee Name</label>
@@ -114,12 +114,12 @@
       employeeFields.appendChild(newField);
       newField.scrollIntoView({ behavior: 'smooth' });
     }
-
+  
     function removeEmployee(button) {
       const employeeEntry = button.parentNode;
       employeeEntry.remove();
     }
-
+  
     function checkDate() {
       const startDate = document.getElementById('startDate').value;
       const addButton = document.getElementById('addButton');
