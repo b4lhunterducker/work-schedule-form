@@ -17,7 +17,7 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = `https://script.google.com/macros/s/AKfycbzS9SeA9Ef2CYIc0qTBZYgq4Oj8kmXBC5a19_kqGE6hdv31k_DOYmSCqGdnd4kE3xhS-w/exec?callback=jsonpCallback&${queryString}`;
+      script.src = `https://script.google.com/macros/s/AKfycbyDzXj8xkPHIDZ2Wrnh2S1pQXxJ1rel4zIJ1AWJT5Lh61T6TM6CB_Gu1hz36_W2j5C61Q/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
 
@@ -31,6 +31,60 @@
     function removeAllEmployees() {
       const entries = document.querySelectorAll('.employee-entry');
       entries.forEach(entry => entry.remove());
+    }
+
+    function addEmployee() {
+      const employeeFields = document.getElementById('employeeFields');
+      const newField = document.createElement('div');
+      newField.className = 'employee-entry';
+      
+      const startDate = new Date(document.getElementById('startDate').value);
+      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      let dateOptions = '';
+      for (let i = 0; i < 14; i++) {
+        const date = new Date(startDate);
+        date.setDate(date.getDate() + i);
+        dateOptions += `<option value="${date.toISOString().split('T')[0]}">${dayNames[date.getDay()]} ${date.toISOString().split('T')[0]}</option>`;
+      }
+      
+      newField.innerHTML = `
+        <div class="form-group">
+          <label for="employeeName">Employee Name</label>
+          <input type="text" name="employeeName" required>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Lunch Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${dateOptions.split('</option>').map((option, index) => `
+            <tr>
+              <td>${option.split('>')[1] || ''}</td>
+              <td>
+                <select name="time_${index}" required>
+                  <option value="OFF">OFF</option>
+                  <option value="11:00-11:30">11:00 - 11:30</option>
+                  <option value="11:30-12:00">11:30 - 12:00</option>
+                  <option value="12:00-12:30">12:00 - 12:30</option>
+                  <option value="12:30-1:00">12:30 - 1:00</option>
+                  <option value="1:00-1:30">1:00 - 1:30</option>
+                </select>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+        <button type="button" class="remove-button" onclick="removeEmployee(this)">Remove</button>
+      `;
+      employeeFields.appendChild(newField);
+      newField.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function removeEmployee(button) {
+      const employeeEntry = button.parentNode;
+      employeeEntry.remove();
     }
   </script>
   <title>Bi-Weekly Work Schedule</title>
@@ -95,7 +149,7 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-    input[type="text"] {
+    input[type="text"], input[type="date"] {
       width: 40%;
       padding: 10px;
       border: 1px solid #ccc;
@@ -221,11 +275,18 @@
             <option value="Admin">Admin</option>
           </select>
         </div>
-        
-        <div id="employeeFields"></div>
-        
-        <button id="addButton" type="button" onclick="addEmployee()">Add Employee</button>
-        <button id="submitButton" type="submit">Submit</button>
+        <div class="form-group">
+          <label for="startDate">Starting Date</label>
+          <input type="date" id="startDate" name="startDate" required>
+        </div>
+        <div class="employee-section">
+          <h2>Employee Schedules</h2>
+          <div id="employeeFields"></div>
+          <button type="button" id="addButton" onclick="addEmployee()">Add Employee</button>
+        </div>
+        <div class="form-group">
+          <button type="submit" id="submitButton">Submit Schedule</button>
+        </div>
       </form>
     </div>
   </div>
