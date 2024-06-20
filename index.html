@@ -17,7 +17,7 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = `https://script.google.com/macros/s/AKfycbyDzXj8xkPHIDZ2Wrnh2S1pQXxJ1rel4zIJ1AWJT5Lh61T6TM6CB_Gu1hz36_W2j5C61Q/exec?callback=jsonpCallback&${queryString}`;
+      script.src = `https://script.google.com/macros/s/AKfycbzS9SeA9Ef2CYIc0qTBZYgq4Oj8kmXBC5a19_kqGE6hdv31k_DOYmSCqGdnd4kE3xhS-w/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
 
@@ -85,7 +85,7 @@
           <label for="employeeName">Employee Name</label>
           <input type="text" name="employeeName" required>
         </div>
-        <div style="display: flex; justify-content: space-between;">
+        <div class="week-section">
           <table>
             <thead>
               <tr>
@@ -233,14 +233,13 @@
       border-radius: 5px;
       background-color: #f9f9f9;
       position: relative;
+    }
+    .week-section {
       display: flex;
       justify-content: space-between;
     }
-    .employee-entry table {
-      width: 45%;
-    }
-    .employee-entry table + table {
-      margin-left: 5%;
+    .week-section table {
+      width: 48%;
     }
     #logo {
       max-width: 25%;
