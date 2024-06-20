@@ -17,7 +17,7 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = `https://script.google.com/macros/s/AKfycbyUvxYAjRV9SNIZkiw9vqEViw60hwchwoytBBMPmCo_UXquvUfyQgSpO57o7qh41g7ozQ/exec?callback=jsonpCallback&${queryString}`;
+      script.src = `https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
   
