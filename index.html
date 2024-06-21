@@ -153,7 +153,7 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = https://script.google.com/macros/s/AKfycbx8AVlJJI_X6JVDkx9TnP2T5UrkAClZ4ilY1rPQz9J0G9zZ3yBvR6NIOZ07FWIqQX19HQ/exec?callback=jsonpCallback&${queryString};
+      script.src = 'https://script.google.com/macros/s/AKfycbx8AVlJJI_X6JVDkx9TnP2T5UrkAClZ4ilY1rPQz9J0G9zZ3yBvR6NIOZ07FWIqQX19HQ/exec?callback=jsonpCallback&${queryString}';
       document.body.appendChild(script);
     }
 
