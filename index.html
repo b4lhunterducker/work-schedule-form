@@ -153,13 +153,13 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = `https://script.google.com/macros/s/AKfycbzHyM4pUjbTyIfcADA8Yk1Qn5tw2R2ftaV7YLW6KE4SPr_3Xk9wnImqQ6wH4_n_-x6uzw/exec?callback=jsonpCallback&${queryString}`;
+      script.src = `https://script.google.com/macros/s/AKfycbz8shggGaaw5P1foqaXdiKWbJ5-3tB-B1Js2w7fs-oi3XXffpl0TQI4nF4kqwm3y05aMg/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
 
     function jsonpCallback(response) {
       console.log('Response from server:', response);
-      alert('The schedule has been submitted to your District Manager.');
+      alert('The schedule has been submitted and a copy has been sent to your email.');
       document.querySelector('form').reset();
       removeAllEmployees();
       document.getElementById('addButton').disabled = true;
