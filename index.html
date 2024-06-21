@@ -198,13 +198,13 @@
         </tr>`;
       }
     
-      for (let i = 7; i < 13; i++) {
+      for (let i = 0; i < 6; i++) {
         const date = new Date(startDate);
-        date.setDate(startDate.getDate() + i + 1); // Skip Sunday
+        date.setDate(startDate.getDate() + i + 7); // Move to the next week, excluding Sunday
         week2 += `<tr>
-          <td>${dayNames[i - 7]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
+          <td>${dayNames[i]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
-            <select name="time_${i}" required>
+            <select name="time_${i + 7}" required>
               <option value="OFF">OFF</option>
               <option value="11:00-11:30">11:00 - 11:30</option>
               <option value="11:30-12:00">11:30 - 12:00</option>
