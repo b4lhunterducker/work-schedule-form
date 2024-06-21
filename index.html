@@ -174,15 +174,15 @@
       const employeeFields = document.getElementById('employeeFields');
       const newField = document.createElement('div');
       newField.className = 'employee-entry';
-
+    
       const startDate = new Date(document.getElementById('startDate').value);
-      const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       let week1 = '';
       let week2 = '';
-
-      for (let i = 0; i < 6; i++) {
+    
+      for (let i = 0; i < 7; i++) {
         const date = new Date(startDate);
-        date.setDate(date.getDate() + i);
+        date.setDate(startDate.getDate() + i);
         week1 += `<tr>
           <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
@@ -197,10 +197,10 @@
           </td>
         </tr>`;
       }
-
-      for (let i = 7; i < 13; i++) {
+    
+      for (let i = 7; i < 14; i++) {
         const date = new Date(startDate);
-        date.setDate(date.getDate() + i);
+        date.setDate(startDate.getDate() + i);
         week2 += `<tr>
           <td>${dayNames[date.getDay()]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
@@ -215,7 +215,7 @@
           </td>
         </tr>`;
       }
-
+    
       newField.innerHTML = `
         <div class="form-group">
           <label for="employeeName">Employee Name</label>
@@ -250,6 +250,7 @@
       employeeFields.appendChild(newField);
       newField.scrollIntoView({ behavior: 'smooth' });
     }
+
 
     function removeEmployee(button) {
       const employeeEntry = button.parentNode;
