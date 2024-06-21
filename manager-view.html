@@ -112,49 +112,39 @@
     </table>
   </div>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      fetch('https://script.google.com/macros/s/AKfycbzOXPf_Om20CBsbANh_J9ZuHusfq07QLBKmwCFOxNj1sycAzfi_-8fgkJk2lMyhWtLYzA/exec') // Replace with your script URL to get the Web App URL
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var storeNumber = document.getElementById('storeNumber').value;
+      var employeeName = document.getElementById('employeeName').value;
+      var startDate = document.getElementById('startDate').value;
+
+      var query = new URLSearchParams();
+      if (storeNumber) query.append('storeNumber', storeNumber);
+      if (employeeName) query.append('employeeName', employeeName);
+      if (startDate) query.append('startDate', startDate);
+
+      fetch(`https://script.google.com/macros/s/AKfycbxJ7dgmRpeCa69MvLS39vI1z12DrNcNEB8Vkd5zDCW50FjeAIvy3eLLOxdzhq9Clke3/exec?${query.toString()}`)
         .then(response => response.json())
         .then(data => {
-          const webAppUrl = data.webAppUrl;
-          document.getElementById('searchForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var storeNumber = document.getElementById('storeNumber').value;
-            var employeeName = document.getElementById('employeeName').value;
-            var startDate = document.getElementById('startDate').value;
-
-            var query = new URLSearchParams();
-            if (storeNumber) query.append('storeNumber', storeNumber);
-            if (employeeName) query.append('employeeName', employeeName);
-            if (startDate) query.append('startDate', startDate);
-
-            fetch(`${webAppUrl}?${query.toString()}`)
-              .then(response => response.json())
-              .then(data => {
-                var tbody = document.getElementById('resultsTable').querySelector('tbody');
-                tbody.innerHTML = '';
-                if (data.length === 0) {
-                  document.getElementById('errorMessage').textContent = 'No records found.';
-                } else {
-                  document.getElementById('errorMessage').textContent = '';
-                  data.forEach(row => {
-                    var tr = document.createElement('tr');
-                    row.forEach(cell => {
-                      var td = document.createElement('td');
-                      td.textContent = cell;
-                      tr.appendChild(td);
-                    });
-                    tbody.appendChild(tr);
-                  });
-                }
-              })
-              .catch(error => {
-                document.getElementById('errorMessage').textContent = 'Error fetching data: ' + error.message;
+          var tbody = document.getElementById('resultsTable').querySelector('tbody');
+          tbody.innerHTML = '';
+          if (data.length === 0) {
+            document.getElementById('errorMessage').textContent = 'No records found.';
+          } else {
+            document.getElementById('errorMessage').textContent = '';
+            data.forEach(row => {
+              var tr = document.createElement('tr');
+              row.forEach(cell => {
+                var td = document.createElement('td');
+                td.textContent = cell;
+                tr.appendChild(td);
               });
-          });
+              tbody.appendChild(tr);
+            });
+          }
         })
         .catch(error => {
-          document.getElementById('errorMessage').textContent = 'Error fetching Web App URL: ' + error.message;
+          document.getElementById('errorMessage').textContent = 'Error fetching data: ' + error.message;
         });
     });
   </script>
