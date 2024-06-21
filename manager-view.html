@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://d3j0t7vrtr92dk.cloudfront.net/brakes4less/1691091298_favicon.png" rel="shortcut icon">
+  <title>District Manager Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding-top: 30px;
+      min-height: 70px;
+      border-bottom: #77aaff 3px solid;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      text-transform: uppercase;
+      font-size: 24px;
+    }
+    form {
+      margin: 20px 0;
+    }
+    form div {
+      margin-bottom: 10px;
+    }
+    form label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    form input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .error-message {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>District Manager Portal</h1>
+  </header>
+  <div class="container">
+    <form id="searchForm">
+      <div>
+        <label for="storeNumber">Store Number</label>
+        <input type="text" id="storeNumber" name="storeNumber">
+      </div>
+      <div>
+        <label for="employeeName">Employee Name</label>
+        <input type="text" id="employeeName" name="employeeName">
+      </div>
+      <div>
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" name="startDate">
+      </div>
+      <button type="submit">Search</button>
+    </form>
+    <div id="errorMessage" class="error-message"></div>
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Store Number</th>
+          <th>Start Date</th>
+          <th>Employee Name</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Sunday</th>
+          <th>Monday (Week 2)</th>
+          <th>Tuesday (Week 2)</th>
+          <th>Wednesday (Week 2)</th>
+          <th>Thursday (Week 2)</th>
+          <th>Friday (Week 2)</th>
+          <th>Saturday (Week 2)</th>
+          <th>Sunday (Week 2)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('https://script.google.com/macros/s/AKfycbzOXPf_Om20CBsbANh_J9ZuHusfq07QLBKmwCFOxNj1sycAzfi_-8fgkJk2lMyhWtLYzA/exec') // Replace with your script URL to get the Web App URL
+        .then(response => response.json())
+        .then(data => {
+          const webAppUrl = data.webAppUrl;
+          document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var storeNumber = document.getElementById('storeNumber').value;
+            var employeeName = document.getElementById('employeeName').value;
+            var startDate = document.getElementById('startDate').value;
+
+            var query = new URLSearchParams();
+            if (storeNumber) query.append('storeNumber', storeNumber);
+            if (employeeName) query.append('employeeName', employeeName);
+            if (startDate) query.append('startDate', startDate);
+
+            fetch(`${webAppUrl}?${query.toString()}`)
+              .then(response => response.json())
+              .then(data => {
+                var tbody = document.getElementById('resultsTable').querySelector('tbody');
+                tbody.innerHTML = '';
+                if (data.length === 0) {
+                  document.getElementById('errorMessage').textContent = 'No records found.';
+                } else {
+                  document.getElementById('errorMessage').textContent = '';
+                  data.forEach(row => {
+                    var tr = document.createElement('tr');
+                    row.forEach(cell => {
+                      var td = document.createElement('td');
+                      td.textContent = cell;
+                      tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                  });
+                }
+              })
+              .catch(error => {
+                document.getElementById('errorMessage').textContent = 'Error fetching data: ' + error.message;
+              });
+          });
+        })
+        .catch(error => {
+          document.getElementById('errorMessage').textContent = 'Error fetching Web App URL: ' + error.message;
+        });
+    });
+  </script>
+</body>
+</html>
