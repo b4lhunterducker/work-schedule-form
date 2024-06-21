@@ -259,7 +259,10 @@
     function checkDate() {
       const startDate = document.getElementById('startDate').value;
       const addButton = document.getElementById('addButton');
-      if (new Date(startDate).getDay() !== 1) { // 1 represents Monday
+      console.log('Selected startDate:', startDate);
+      const date = new Date(startDate);
+      console.log('Day of the week:', date.getDay());
+      if (date.getDay() !== 1) { // 1 represents Monday
         alert("Please select a Monday as the starting date.");
         addButton.disabled = true;
       } else {
