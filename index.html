@@ -153,7 +153,7 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = `https://script.google.com/macros/s/AKfycbz8shggGaaw5P1foqaXdiKWbJ5-3tB-B1Js2w7fs-oi3XXffpl0TQI4nF4kqwm3y05aMg/exec?callback=jsonpCallback&${queryString}`;
+      script.src = `https://script.google.com/macros/s/AKfycbxii4oVL_34Qkei2jYcCkRwU0I8UQOzs_39wBU-Cs-jsOElneewFpDAVM7F2LlZNs61jg/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
 
@@ -170,6 +170,17 @@
       entries.forEach(entry => entry.remove());
     }
 
+    function checkDate() {
+      const startDate = document.getElementById('startDate').value;
+      const addButton = document.getElementById('addButton');
+      if (new Date(startDate).getDay() !== 1) { // 1 represents Monday
+        alert("Please select a Monday as the starting date.");
+        addButton.disabled = true;
+      } else {
+        addButton.disabled = false;
+      }
+    }
+    
     function addEmployee() {
       const employeeFields = document.getElementById('employeeFields');
       const newField = document.createElement('div');
