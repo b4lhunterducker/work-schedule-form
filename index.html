@@ -182,7 +182,7 @@
   
       for (let i = 0; i < 6; i++) {
         const date = new Date(startDate);
-        date.setDate(startDate.getDate() + i);
+        date.setDate(startDate.getDate() + (i + 1));
         week1 += `<tr>
           <td>${dayNames[i]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
@@ -200,7 +200,7 @@
   
       for (let i = 0; i < 6; i++) {
         const date = new Date(startDate);
-        date.setDate(startDate.getDate() + i + 7); // Move to the next week, starting from the same day
+        date.setDate(startDate.getDate() + i + 8); // Move to the next week, starting from the same day
         week2 += `<tr>
           <td>${dayNames[i]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
