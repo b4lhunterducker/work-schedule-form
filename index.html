@@ -187,7 +187,7 @@
         week1 += `<tr>
           <td>${dayNames[i]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
-            <select name="time_${i}" required>
+            <select name="time_${i + 1}" required>
               <option value="OFF">OFF</option>
               <option value="11:00-11:30">11:00 - 11:30</option>
               <option value="11:30-12:00">11:30 - 12:00</option>
@@ -205,7 +205,7 @@
         week2 += `<tr>
           <td>${dayNames[i]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
-            <select name="time_${i + 7}" required>
+            <select name="time_${i + 8}" required>
               <option value="OFF">OFF</option>
               <option value="11:00-11:30">11:00 - 11:30</option>
               <option value="11:30-12:00">11:30 - 12:00</option>
