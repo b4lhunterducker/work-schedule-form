@@ -105,6 +105,19 @@
   <div class="container">
     <form id="searchForm">
       <div>
+        <label for="districtManager">District Manager</label>
+        <select id="districtManager" name="districtManager">
+          <option value="">Select District Manager</option>
+          <option value="1">Joe Lehecka</option>
+          <option value="2">John Shook</option>
+          <option value="3">Tim York</option>
+          <option value="4">John Dacey</option>
+          <option value="5">Brian Streit</option>
+          <option value="6">Johnny Lehecka</option>
+          <!-- Add more managers as needed -->
+        </select>
+      </div>
+      <div>
         <label for="storeNumber">Store Number</label>
           <select id="storeNumber" name="storeNumber" required>
             <option value="">###</option>
@@ -193,6 +206,17 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Define the mapping of District Managers to stores
+      const districtManagerStores = {
+        '1': ['317', '318'],
+        '2': ['307', '309'],
+        '3': ['104', '105', '107', '108', '109', '110', '201', '202', '203', '204', '205', '206', '207', '208'],
+        '4': ['302', '319', '308'],
+        '5': ['301', '305', '311', '312', '313', '314', '315', '316'],
+        '6': ['1', '4', '5', '6', '7', '10', '11']
+        // Add more mappings as needed
+      };
+    
       // Function to fetch and display data
       function fetchData(query = '') {
         fetch(`https://script.google.com/macros/s/AKfycbwu0O_BIpNs-sDQgaXiVputsbyMsJlXhxQTtLi31PmvAO4EwIMnq7cNTpm5esHNRLv4rw/exec${query}`)
@@ -235,8 +259,17 @@
         var storeNumber = document.getElementById('storeNumber').value;
         var employeeName = document.getElementById('employeeName').value;
         var startDate = document.getElementById('startDate').value;
+        var districtManager = document.getElementById('districtManager').value;
     
         var query = new URLSearchParams();
+    
+        if (districtManager) {
+          var stores = districtManagerStores[districtManager] || [];
+          if (stores.length > 0) {
+            query.append('storeNumber', stores.join(','));
+          }
+        }
+    
         if (storeNumber) query.append('storeNumber', storeNumber);
         if (employeeName) query.append('employeeName', employeeName);
         if (startDate) query.append('startDate', startDate);
