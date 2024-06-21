@@ -13,9 +13,9 @@
       padding: 0;
     }
     .container {
-      width: 80%;
+      width: 90%;
       margin: auto;
-      overflow: hidden;
+      overflow-x: auto;
     }
     #searchButton {
       display: inline-block;
@@ -28,7 +28,7 @@
       margin-right: 10px;
       color: white;
     }
-    #searchButton:hover{
+    #searchButton:hover {
       background-color: #155e35;
     }
     header {
@@ -69,9 +69,16 @@
     th, td {
       padding: 8px;
       text-align: left;
+      white-space: nowrap;
     }
     th {
       background-color: #f4f4f4;
+      position: sticky;
+      top: 0;
+    }
+    .week-headers th {
+      background-color: #333;
+      color: #fff;
     }
     .error-message {
       color: red;
@@ -104,6 +111,10 @@
     <table id="resultsTable">
       <thead>
         <tr>
+          <th colspan="10">Week 1</th>
+          <th colspan="10">Week 2</th>
+        </tr>
+        <tr>
           <th>Store Number</th>
           <th>Start Date</th>
           <th>Employee Name</th>
@@ -114,13 +125,13 @@
           <th>Friday</th>
           <th>Saturday</th>
           <th>Sunday</th>
-          <th>Monday (Week 2)</th>
-          <th>Tuesday (Week 2)</th>
-          <th>Wednesday (Week 2)</th>
-          <th>Thursday (Week 2)</th>
-          <th>Friday (Week 2)</th>
-          <th>Saturday (Week 2)</th>
-          <th>Sunday (Week 2)</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Sunday</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -130,7 +141,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Function to fetch and display data
       function fetchData(query = '') {
-        fetch(`https://script.google.com/macros/s/AKfycbyhyco1n4ZrdymyW3uMmRXtPO1eou45eV2eGN3gwTz4sHEJ4yqKnMEhQiHXDbGLrww9/exec${query}`)
+        fetch(`https://script.google.com/macros/s/AKfycbwGceQgcwyL0-Ud0nCjCUF2KyS_hAtsMUJtDT1SWKOk91iXb5UxegPgYLiXfWO8HlvzBg/exec${query}`)
           .then(response => response.json())
           .then(data => {
             var tbody = document.getElementById('resultsTable').querySelector('tbody');
