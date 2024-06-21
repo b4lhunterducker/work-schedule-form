@@ -212,23 +212,25 @@
         '2': ['307', '309'],
         '3': ['104', '105', '107', '108', '109', '110', '201', '202', '203', '204', '205', '206', '207', '208'],
         '4': ['302', '319', '308'],
-        '5': ['301', '305', '311', '312', '313', '314', '315', '316'],
+        '5': ['301', '305', '311', '312', '313', '314', '316'],
         '6': ['1', '4', '5', '6', '7', '10', '11']
         // Add more mappings as needed
       };
     
       // Function to fetch and display data
       function fetchData(query = '') {
+        console.log('Query:', query); // Debugging line to check query
         fetch(`https://script.google.com/macros/s/AKfycbwu0O_BIpNs-sDQgaXiVputsbyMsJlXhxQTtLi31PmvAO4EwIMnq7cNTpm5esHNRLv4rw/exec${query}`)
           .then(response => response.json())
           .then(data => {
+            console.log('Data:', data); // Debugging line to check fetched data
             var tbody = document.getElementById('resultsTable').querySelector('tbody');
             tbody.innerHTML = '';
             if (data.length === 0) {
               document.getElementById('errorMessage').textContent = 'No records found.';
             } else {
               document.getElementById('errorMessage').textContent = '';
-              data.forEach(row => {
+                            data.forEach(row => {
                 var tr = document.createElement('tr');
                 row.forEach((cell, index) => {
                   var td = document.createElement('td');
