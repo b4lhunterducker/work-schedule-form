@@ -261,14 +261,16 @@
       const addButton = document.getElementById('addButton');
       console.log('Selected startDate:', startDate);
       const date = new Date(startDate);
-      console.log('Day of the week:', date.getDay());
-      if (date.getDay() !== 1) { // 1 represents Monday
+      const dayOfWeek = date.getUTCDay();
+      console.log('Day of the week:', dayOfWeek);
+      if (dayOfWeek !== 1) { // 1 represents Monday
         alert("Please select a Monday as the starting date.");
         addButton.disabled = true;
       } else {
         addButton.disabled = false;
       }
     }
+
   </script>
 </head>
 <body>
