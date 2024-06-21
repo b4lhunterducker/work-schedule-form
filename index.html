@@ -169,17 +169,6 @@
       const entries = document.querySelectorAll('.employee-entry');
       entries.forEach(entry => entry.remove());
     }
-
-    function checkDate() {
-      const startDate = document.getElementById('startDate').value;
-      const addButton = document.getElementById('addButton');
-      if (new Date(startDate).getDay() !== 1) { // 1 represents Monday
-        alert("Please select a Monday as the starting date.");
-        addButton.disabled = true;
-      } else {
-        addButton.disabled = false;
-      }
-    }
     
     function addEmployee() {
       const employeeFields = document.getElementById('employeeFields');
@@ -270,7 +259,12 @@
     function checkDate() {
       const startDate = document.getElementById('startDate').value;
       const addButton = document.getElementById('addButton');
-      addButton.disabled = !startDate;
+      if (new Date(startDate).getDay() !== 1) { // 1 represents Monday
+        alert("Please select a Monday as the starting date.");
+        addButton.disabled = true;
+      } else {
+        addButton.disabled = false;
+      }
     }
   </script>
 </head>
