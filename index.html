@@ -153,10 +153,10 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = `https://script.google.com/macros/s/AKfycbw-fB0PPkcuVWtWIWYPf4C3y4UZ3ERLNmICJyvJDggFBW3burBCUgGtFKjkWXgBANVYkQ/exec?callback=jsonpCallback&${queryString}`;
+      script.src = `https://script.google.com/macros/s/AKfycbwv42LqPQszLWMC89EwqcVMDOISEkFyQT6OklZLLoTf28n1hJueWnPXiw_kcHB5Jml8Cw/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
-
+  
     function jsonpCallback(response) {
       console.log('Response from server:', response);
       alert('The schedule has been submitted and a copy has been sent to your email.');
@@ -164,26 +164,25 @@
       removeAllEmployees();
       document.getElementById('addButton').disabled = true;
     }
-
+  
     function removeAllEmployees() {
       const entries = document.querySelectorAll('.employee-entry');
       entries.forEach(entry => entry.remove());
     }
-    
+  
     function addEmployee() {
       const employeeFields = document.getElementById('employeeFields');
       const newField = document.createElement('div');
       newField.className = 'employee-entry';
-    
+  
       const startDate = new Date(document.getElementById('startDate').value);
       const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       let week1 = '';
       let week2 = '';
-    
-      // Adjust the loops to correctly map the days and dates
+  
       for (let i = 0; i < 6; i++) {
         const date = new Date(startDate);
-        date.setDate(startDate.getDate() + (i + 1));
+        date.setDate(startDate.getDate() + i);
         week1 += `<tr>
           <td>${dayNames[i]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
@@ -198,14 +197,14 @@
           </td>
         </tr>`;
       }
-    
+  
       for (let i = 0; i < 6; i++) {
         const date = new Date(startDate);
-        date.setDate(startDate.getDate() + (i + 8)); // Move to the next week, starting from the same day
+        date.setDate(startDate.getDate() + i + 7); // Move to the next week, starting from the same day
         week2 += `<tr>
           <td>${dayNames[i]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
-            <select name="time_${i + 8}" required>
+            <select name="time_${i + 7}" required>
               <option value="OFF">OFF</option>
               <option value="11:00-11:30">11:00 - 11:30</option>
               <option value="11:30-12:00">11:30 - 12:00</option>
@@ -216,7 +215,7 @@
           </td>
         </tr>`;
       }
-    
+  
       newField.innerHTML = `
         <div class="form-group">
           <label for="employeeName">Employee Name</label>
@@ -251,12 +250,12 @@
       employeeFields.appendChild(newField);
       newField.scrollIntoView({ behavior: 'smooth' });
     }
-
+  
     function removeEmployee(button) {
       const employeeEntry = button.parentNode;
       employeeEntry.remove();
     }
-
+  
     function checkDate() {
       const startDate = document.getElementById('startDate').value;
       const addButton = document.getElementById('addButton');
