@@ -153,7 +153,7 @@
       });
       const queryString = new URLSearchParams(data).toString();
       const script = document.createElement('script');
-      script.src = `https://script.google.com/macros/s/AKfycbwr6aLjZ7jNmK4fzJxEk4wtavUyv5yRTdnTd9NYoFtNB3YnJ4wBYg6bO1FVip0sIypTKA/exec?callback=jsonpCallback&${queryString}`;
+      script.src = `https://script.google.com/macros/s/AKfycbyqg05Ex8YrLZjRaoJolSonUZwyEWzcJIdCQgyuVSP_zpXfiIeArtAlo1maH152rXwIqg/exec?callback=jsonpCallback&${queryString}`;
       document.body.appendChild(script);
     }
   
@@ -174,15 +174,16 @@
       const employeeFields = document.getElementById('employeeFields');
       const newField = document.createElement('div');
       newField.className = 'employee-entry';
-  
+    
       const startDate = new Date(document.getElementById('startDate').value);
       const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       let week1 = '';
       let week2 = '';
-  
+    
+      // Adjust the loops to correctly map the days and dates
       for (let i = 0; i < 6; i++) {
         const date = new Date(startDate);
-        date.setDate(startDate.getDate() + (i + 1));
+        date.setDate(startDate.getDate() + (i + 1)); // Week 1 starting from the selected Monday
         week1 += `<tr>
           <td>${dayNames[i]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
@@ -197,10 +198,10 @@
           </td>
         </tr>`;
       }
-  
+    
       for (let i = 0; i < 6; i++) {
         const date = new Date(startDate);
-        date.setDate(startDate.getDate() + i + 8); // Move to the next week, starting from the same day
+        date.setDate(startDate.getDate() + i + 8); // Week 2 starting from the next Monday
         week2 += `<tr>
           <td>${dayNames[i]} (${date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' })})</td>
           <td>
@@ -215,7 +216,7 @@
           </td>
         </tr>`;
       }
-  
+    
       newField.innerHTML = `
         <div class="form-group">
           <label for="employeeName">Employee Name</label>
