@@ -112,40 +112,51 @@
     </table>
   </div>
   <script>
-    document.getElementById('searchForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      var storeNumber = document.getElementById('storeNumber').value;
-      var employeeName = document.getElementById('employeeName').value;
-      var startDate = document.getElementById('startDate').value;
-
-      var query = new URLSearchParams();
-      if (storeNumber) query.append('storeNumber', storeNumber);
-      if (employeeName) query.append('employeeName', employeeName);
-      if (startDate) query.append('startDate', startDate);
-
-      fetch(`https://script.google.com/macros/s/AKfycbxJ7dgmRpeCa69MvLS39vI1z12DrNcNEB8Vkd5zDCW50FjeAIvy3eLLOxdzhq9Clke3/exec?${query.toString()}`)
-        .then(response => response.json())
-        .then(data => {
-          var tbody = document.getElementById('resultsTable').querySelector('tbody');
-          tbody.innerHTML = '';
-          if (data.length === 0) {
-            document.getElementById('errorMessage').textContent = 'No records found.';
-          } else {
-            document.getElementById('errorMessage').textContent = '';
-            data.forEach(row => {
-              var tr = document.createElement('tr');
-              row.forEach(cell => {
-                var td = document.createElement('td');
-                td.textContent = cell;
-                tr.appendChild(td);
+    document.addEventListener('DOMContentLoaded', function() {
+      // Function to fetch and display data
+      function fetchData(query = '') {
+        fetch(`https://script.google.com/macros/s/AKfycbxJ7dgmRpeCa69MvLS39vI1z12DrNcNEB8Vkd5zDCW50FjeAIvy3eLLOxdzhq9Clke3/exec${query}`)
+          .then(response => response.json())
+          .then(data => {
+            var tbody = document.getElementById('resultsTable').querySelector('tbody');
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+              document.getElementById('errorMessage').textContent = 'No records found.';
+            } else {
+              document.getElementById('errorMessage').textContent = '';
+              data.forEach(row => {
+                var tr = document.createElement('tr');
+                row.forEach(cell => {
+                  var td = document.createElement('td');
+                  td.textContent = cell;
+                  tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
               });
-              tbody.appendChild(tr);
-            });
-          }
-        })
-        .catch(error => {
-          document.getElementById('errorMessage').textContent = 'Error fetching data: ' + error.message;
-        });
+            }
+          })
+          .catch(error => {
+            document.getElementById('errorMessage').textContent = 'Error fetching data: ' + error.message;
+          });
+      }
+
+      // Fetch all data initially
+      fetchData();
+
+      // Handle form submission to search/filter data
+      document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var storeNumber = document.getElementById('storeNumber').value;
+        var employeeName = document.getElementById('employeeName').value;
+        var startDate = document.getElementById('startDate').value;
+
+        var query = new URLSearchParams();
+        if (storeNumber) query.append('storeNumber', storeNumber);
+        if (employeeName) query.append('employeeName', employeeName);
+        if (startDate) query.append('startDate', startDate);
+
+        fetchData(`?${query.toString()}`);
+      });
     });
   </script>
 </body>
