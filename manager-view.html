@@ -115,7 +115,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Function to fetch and display data
       function fetchData(query = '') {
-        fetch(`https://script.google.com/macros/s/AKfycbxJ7dgmRpeCa69MvLS39vI1z12DrNcNEB8Vkd5zDCW50FjeAIvy3eLLOxdzhq9Clke3/exec${query}`)
+        fetch(`https://script.google.com/macros/s/AKfycbyhyco1n4ZrdymyW3uMmRXtPO1eou45eV2eGN3gwTz4sHEJ4yqKnMEhQiHXDbGLrww9/exec${query}`)
           .then(response => response.json())
           .then(data => {
             var tbody = document.getElementById('resultsTable').querySelector('tbody');
