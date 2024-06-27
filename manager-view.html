@@ -85,9 +85,6 @@
       position: sticky;
       top: 0;
     }
-    #sunday {
-      background-color: grey;
-    }
     tr {
       text-align: center;
     }
@@ -168,7 +165,7 @@
         <input type="text" id="employeeName" name="employeeName">
       </div>
       <div>
-        <label for="startDate">Start Date - First Monday of the Pay Period.</label>
+        <label for="startDate">Start Date</label>
         <input type="date" id="startDate" name="startDate">
       </div>
       <button type="submit" id="searchButton">Search</button>
@@ -194,14 +191,14 @@
           <th>Thursday</th>
           <th>Friday</th>
           <th>Saturday</th>
-          <th id="sunday">Sunday</th>
+          <th>Sunday</th>
           <th>Monday</th>
           <th>Tuesday</th>
           <th>Wednesday</th>
           <th>Thursday</th>
           <th>Friday</th>
           <th>Saturday</th>
-          <th id="sunday">Sunday</th>
+          <th>Sunday</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -223,9 +220,7 @@
       // Function to fetch and display data
       function fetchData(query = '') {
         console.log('Query:', query); // Debugging line to check query
-        fetch(`https://script.google.com/macros/s/AKfycbynpq13xSxz7RoRnxm9yehAPqOvlx870PoJE1NoVWyeAc3kMP2a8p63DzqZWn9oUuAoGw/exec${query}`, {
-            mode: 'no-cors'
-          })
+        fetch(`https://script.google.com/macros/s/AKfycbynpq13xSxz7RoRnxm9yehAPqOvlx870PoJE1NoVWyeAc3kMP2a8p63DzqZWn9oUuAoGw/exec${query}`)
           .then(response => response.json())
           .then(data => {
             console.log('Data:', data); // Debugging line to check fetched data
@@ -284,18 +279,6 @@
         fetchData(`?${query.toString()}`);
       });
     });
-
-    function checkDate() {
-      const startDate = document.getElementById('startDate').value;
-      console.log('Selected startDate:', startDate);
-      const date = new Date(startDate);
-      const dayOfWeek = date.getUTCDay();
-      console.log('Day of the week:', dayOfWeek);
-      if (dayOfWeek !== 1) { // 1 represents Monday
-        alert("Please select the first Monday of the pay period.");
-        document.getElementById('startDate').value = "";
-      }
-    }
   </script>
 </body>
 </html>
