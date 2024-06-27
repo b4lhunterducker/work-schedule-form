@@ -282,6 +282,18 @@
         fetchData(`?${query.toString()}`);
       });
     });
+
+    function checkDate() {
+      const startDate = document.getElementById('startDate').value;
+      console.log('Selected startDate:', startDate);
+      const date = new Date(startDate);
+      const dayOfWeek = date.getUTCDay();
+      console.log('Day of the week:', dayOfWeek);
+      if (dayOfWeek !== 1) { // 1 represents Monday
+        alert("Please select the first Monday of the pay period.");
+        document.getElementById('startDate').value = "";
+      }
+    }
   </script>
 </body>
 </html>
