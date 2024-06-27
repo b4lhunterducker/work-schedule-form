@@ -169,7 +169,7 @@
       </div>
       <div>
         <label for="startDate">Start Date - First Monday of the Pay Period.</label>
-        <input type="date" id="startDate" name="startDate" onchange="checkDate()">
+        <input type="date" id="startDate" name="startDate">
       </div>
       <button type="submit" id="searchButton">Search</button>
     </form>
@@ -209,6 +209,7 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Define the mapping of District Managers to stores
       const districtManagerStores = {
         '1': ['317', '318'],
         '2': ['307', '309'],
@@ -216,49 +217,48 @@
         '4': ['302', '319', '308'],
         '5': ['301', '305', '311', '312', '313', '314', '316'],
         '6': ['1', '4', '5', '6', '7', '10', '11']
+        // Add more mappings as needed
       };
     
+      // Function to fetch and display data
       function fetchData(query = '') {
         console.log('Query:', query); // Debugging line to check query
-        const script = document.createElement('script');
-        script.src = `https://script.google.com/macros/s/AKfycbynxD-LgGc56wSWVISjBLo7_5iVM87MADqLlE2JZaufvRbcT7CTE5HiNSw0vRqG3QglRA/exec${query}&callback=jsonpCallback`;
-        document.body.appendChild(script);
-      }
-    
-      window.jsonpCallback = function(data) {
-        console.log('Data:', data); // Debugging line to check fetched data
-        var tbody = document.getElementById('resultsTable').querySelector('tbody');
-        tbody.innerHTML = '';
-        if (data.length === 0) {
-          document.getElementById('errorMessage').textContent = 'No records found.';
-        } else {
-          document.getElementById('errorMessage').textContent = '';
-          data.forEach(row => {
-            var tr = document.createElement('tr');
-            row.forEach((cell, index) => {
-              var td = document.createElement('td');
-              if (index === 1) { // Assuming the start date is the second column
-                const date = new Date(cell);
-                const formattedDate = `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
-                td.textContent = formattedDate;
-              } else if (index === 3) { // Assuming the timestamp is the fourth column
-                const date = new Date(cell);
-                const formattedTimestamp = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}:${('0' + date.getSeconds()).slice(-2)}`;
-                td.textContent = formattedTimestamp;
-              } else {
-                td.textContent = cell;
-              }
-              tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
+        fetch(`https://script.google.com/macros/s/AKfycbxw8OYFlUrEDPjdPZjajbOcpcSmrjTcnTJbZpy5tu7pzRebZXObPU8K22xGIt_36aukUA/exec${query}`)
+          .then(response => response.json())
+          .then(data => {
+            console.log('Data:', data); // Debugging line to check fetched data
+            var tbody = document.getElementById('resultsTable').querySelector('tbody');
+            tbody.innerHTML = '';
+            if (data.length === 0) {
+              document.getElementById('errorMessage').textContent = 'No records found.';
+            } else {
+              document.getElementById('errorMessage').textContent = '';
+                            data.forEach(row => {
+                var tr = document.createElement('tr');
+                row.forEach((cell, index) => {
+                  var td = document.createElement('td');
+                  if (index === 1) { // Assuming the start date is the second column
+                    const date = new Date(cell);
+                    const formattedDate = `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
+                    td.textContent = formattedDate;
+                  } else {
+                    td.textContent = cell;
+                  }
+                  tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+              });
+            }
+          })
+          .catch(error => {
+            document.getElementById('errorMessage').textContent = 'Error fetching data: ' + error.message;
           });
-        }
-      };
+      }
     
       // Fetch all data initially
       fetchData();
     
-        // Handle form submission to search/filter data
+      // Handle form submission to search/filter data
       document.getElementById('searchForm').addEventListener('submit', function(event) {
         event.preventDefault();
         var storeNumber = document.getElementById('storeNumber').value;
@@ -282,21 +282,6 @@
         fetchData(`?${query.toString()}`);
       });
     });
-    
-    function checkDate() {
-      const startDate = document.getElementById('startDate').value;
-      const addButton = document.getElementById('addButton');
-      console.log('Selected startDate:', startDate);
-      const date = new Date(startDate);
-      const dayOfWeek = date.getUTCDay();
-      console.log('Day of the week:', dayOfWeek);
-      if (dayOfWeek !== 1) { // 1 represents Monday
-        alert("Please select the first Monday of the pay period.");
-        document.getElementById("startDate").value = "";
-      }
-    }
-
-
   </script>
 </body>
 </html>
