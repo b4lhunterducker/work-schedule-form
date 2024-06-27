@@ -219,7 +219,22 @@
         '6': ['1', '4', '5', '6', '7', '10', '11']
         // Add more mappings as needed
       };
-    
+
+      function checkDate() {
+        const startDate = document.getElementById('startDate').value;
+        const addButton = document.getElementById('addButton');
+        console.log('Selected startDate:', startDate);
+        const date = new Date(startDate);
+        const dayOfWeek = date.getUTCDay();
+        console.log('Day of the week:', dayOfWeek);
+        if (dayOfWeek !== 1) { // 1 represents Monday
+          alert("Please select the first Monday of the pay period.");
+          addButton.disabled = true;
+        } else {
+          addButton.disabled = false;
+        }
+      }
+      
       // Function to fetch and display data
       function fetchData(query = '') {
         console.log('Query:', query); // Debugging line to check query
