@@ -223,7 +223,10 @@
       // Function to fetch and display data
       function fetchData(query = '') {
         console.log('Query:', query); // Debugging line to check query
-        fetch(`https://script.google.com/macros/s/AKfycbxw8OYFlUrEDPjdPZjajbOcpcSmrjTcnTJbZpy5tu7pzRebZXObPU8K22xGIt_36aukUA/exec${query}`)
+        fetch(`https://script.google.com/macros/s/AKfycbynpq13xSxz7RoRnxm9yehAPqOvlx870PoJE1NoVWyeAc3kMP2a8p63DzqZWn9oUuAoGw/exec${query}`, {
+            method: 'GET',
+            mode: 'no-cors'
+          })
           .then(response => response.json())
           .then(data => {
             console.log('Data:', data); // Debugging line to check fetched data
