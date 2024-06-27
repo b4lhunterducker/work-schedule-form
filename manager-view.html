@@ -292,9 +292,8 @@
         console.log('Day of the week:', dayOfWeek);
         if (dayOfWeek !== 1) { // 1 represents Monday
           alert("Please select the first Monday of the pay period.");
-          addButton.disabled = true;
         } else {
-          addButton.disabled = false;
+          document.getElementById("startDatee").value = "";
         }
       }
   </script>
