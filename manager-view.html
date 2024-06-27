@@ -85,6 +85,9 @@
       position: sticky;
       top: 0;
     }
+    #sunday {
+      background-color: grey;
+    }
     tr {
       text-align: center;
     }
@@ -165,7 +168,7 @@
         <input type="text" id="employeeName" name="employeeName">
       </div>
       <div>
-        <label for="startDate">Start Date</label>
+        <label for="startDate">Start Date - First Monday of the Pay Period.</label>
         <input type="date" id="startDate" name="startDate">
       </div>
       <button type="submit" id="searchButton">Search</button>
@@ -191,14 +194,14 @@
           <th>Thursday</th>
           <th>Friday</th>
           <th>Saturday</th>
-          <th>Sunday</th>
+          <th id="sunday">Sunday</th>
           <th>Monday</th>
           <th>Tuesday</th>
           <th>Wednesday</th>
           <th>Thursday</th>
           <th>Friday</th>
           <th>Saturday</th>
-          <th>Sunday</th>
+          <th id="sunday">Sunday</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -220,7 +223,7 @@
       // Function to fetch and display data
       function fetchData(query = '') {
         console.log('Query:', query); // Debugging line to check query
-        fetch(`https://script.google.com/macros/s/AKfycbzmjAygNA7GMYj9NnME4tzr6YhWMYQ-TAqNiC47k4qWQO1BSL9RPn3IoJZaEidtCqlYcA/exec${query}`)
+        fetch(`https://script.google.com/macros/s/AKfycbwndMp4L3tzUXzjrJO2jKA2cTCxsIAGgcJGlTTOCPBZAb1f-ZAYxsQuPNF5bo9CQ5fEaw/exec${query}`)
           .then(response => response.json())
           .then(data => {
             console.log('Data:', data); // Debugging line to check fetched data
