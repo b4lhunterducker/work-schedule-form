@@ -181,42 +181,51 @@
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         const pageData = data.slice(start, end);
-
+    
         const resultsContainer = document.getElementById('resultsContainer');
         resultsContainer.innerHTML = '';
-
+    
         if (pageData.length === 0) {
-          document.getElementById('errorMessage').textContent = 'No records found.';
+            document.getElementById('errorMessage').textContent = 'No records found.';
         } else {
-          document.getElementById('errorMessage').textContent = '';
-
-          pageData.forEach(row => {
-            const card = document.createElement('div');
-            card.className = 'card';
-
-            const cardHeader = document.createElement('div');
-            cardHeader.className = 'card-header';
-            cardHeader.textContent = `Store Number: ${row[0]} | Start Date: ${formatDate(row[1])}`;
-            card.appendChild(cardHeader);
-
-            const startDate = new Date(row[1]);
-
-            row.slice(2).forEach((cell, index) => {
-              const detail = document.createElement('div');
-              detail.className = 'card-detail';
-              const dayLabel = getHeaderLabel(index + 1);
-              const dateLabel = getDateLabel(startDate, index);
-              detail.innerHTML = `<strong>${dayLabel} (${dateLabel}):</strong> ${cell}`;
-              if (index === 6 || index === 13) { // Grey out Sundays
-                detail.classList.add('grey-out');
-              }
-              card.appendChild(detail);
+            document.getElementById('errorMessage').textContent = '';
+    
+            pageData.forEach(row => {
+                const card = document.createElement('div');
+                card.className = 'card';
+    
+                const cardHeader = document.createElement('div');
+                cardHeader.className = 'card-header';
+                cardHeader.textContent = `Store Number: ${row[0]} | Start Date: ${formatDate(row[1])}`;
+                card.appendChild(cardHeader);
+    
+                const startDate = new Date(row[1]);
+    
+                row.slice(2).forEach((cell, index) => {
+                    const detail = document.createElement('div');
+                    detail.className = 'card-detail';
+                    const headerLabel = getHeaderLabel(index + 2);
+                    let detailContent = `<strong>${headerLabel}`;
+    
+                    if (index >= 2) {
+                        const dateLabel = getDateLabel(startDate, index - 2);
+                        detailContent += ` (${dateLabel})`;
+                    }
+    
+                    detailContent += `:</strong> ${cell}`;
+                    detail.innerHTML = detailContent;
+    
+                    if (index === 6 || index === 13) { // Grey out Sundays
+                        detail.classList.add('grey-out');
+                    }
+    
+                    card.appendChild(detail);
+                });
+    
+                resultsContainer.appendChild(card);
             });
-
-            resultsContainer.appendChild(card);
-          });
         }
-      }
+    }
 
       function formatDate(dateStr) {
         const date = new Date(dateStr);
