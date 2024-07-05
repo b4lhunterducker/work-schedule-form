@@ -60,6 +60,7 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
+      overflow-x: auto;
     }
     th, td {
       padding: 10px;
@@ -69,8 +70,6 @@
     th {
       background-color: #333;
       color: white;
-      position: sticky;
-      top: 0;
     }
     tr:nth-child(even) {
       background-color: #f4f4f4;
@@ -98,6 +97,9 @@
       background-color: #f4f4f4;
       cursor: not-allowed;
     }
+    .grey-out {
+      background-color: #e0e0e0;
+    }
     @media (max-width: 768px) {
       table, thead, tbody, th, td, tr {
         display: block;
@@ -121,9 +123,6 @@
         width: 100%;
         margin-bottom: 10px;
       }
-    }
-    .grey-out {
-      background-color: #e0e0e0;
     }
   </style>
 </head>
@@ -248,7 +247,7 @@
       let data = [];
 
       function fetchData(query = '') {
-        fetch(`https://script.google.com/macros/s/AKfycbx_m0p7-I0r56j2YL_oa9luMkxoN_NlBLlEpRGv96p9MQsk8XqTAEDkAwKbUCCczG34rg/exec${query}`)
+                fetch(`https://script.google.com/macros/s/AKfycbx_m0p7-I0r56j2YL_oa9luMkxoN_NlBLlEpRGv96p9MQsk8XqTAEDkAwKbUCCczG34rg/exec${query}`)
           .then(response => response.json())
           .then(fetchedData => {
             data = fetchedData;
