@@ -42,6 +42,18 @@
       box-sizing: border-box;
       margin-bottom: 10px;
     }
+    .pageButton {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #218f50;
+      color: white;
+    }
+    .pageButton:disabled{
+      color:black;
+      background-color: grey;
+    }
     #searchButton {
       padding: 10px 20px;
       border: none;
@@ -59,38 +71,72 @@
       color: red;
       font-weight: bold;
     }
+    .card-header {
+        font-weight: bold;
+        background-color: #ff4d4d;
+        color: white;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        padding: 10px;
+        width: calc(100% + 30px);
+        margin-left: -15px;
+        margin-top: -15px;
+        box-sizing: border-box;
+    }
+
     .card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-      padding: 15px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 50px;
+        padding: 15px;
+        padding-top: 0;
+        padding-bottom: 0;
+        position: relative;
+        box-sizing: border-box;
     }
-    .card-header {
-      font-weight: bold;
-      margin-bottom: 10px;
+
+    .card-employee-name {
+        text-align: center;
+        padding: 10px 0;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
     }
-    .card-header {
-      font-weight: bold;
-      margin-bottom: 10px;
-      background-color: #ff4d4d;
-      padding: 10px;
-      color: white;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
+
+    .card-detail {
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
     }
-    
-    .card-footer {
-      height: 5px;
-      background-color: #ff4d4d;
-      border-bottom-left-radius: 8px;
-      border-bottom-right-radius: 8px;
-      margin-top: 10px;
-    }
-    
+
     .card-detail.grey-out {
-      background-color: #e0e0e0;
+        background-color: #e0e0e0;
     }
+
+    .card-detail strong {
+        flex: 1;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .card-detail span {
+        flex: 1;
+        text-align: right;
+    }
+
+    .weeks-container {
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+    }
+
+    .week {
+        width: 48%;
+    }
+
 
 
   </style>
@@ -158,15 +204,40 @@
       <input type="date" id="startDate" name="startDate">
       <button type="submit" id="searchButton">Search</button>
     </form>
+    <br>
+    <br>
     <div id="errorMessage" class="error-message"></div>
     <div id="resultsContainer"></div>
+    <br>
+    <br>
     <div class="pagination">
-      <button id="prevButton" onclick="prevPage()" disabled>Previous</button>
-      <button id="nextButton" onclick="nextPage()" disabled>Next</button>
+      <button id="prevButton" class="pageButton" onclick="prevPage()" disabled>Previous</button>
+      <button id="nextButton" class="pageButton" onclick="nextPage()" disabled>Next</button>
     </div>
+    <br>
+    <br>
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      const storeNumberSelect = document.getElementById('storeNumber');
+      const districtManagerSelect = document.getElementById('districtManager');
+
+      storeNumberSelect.addEventListener('change', function() {
+        if (storeNumberSelect.value) {
+          districtManagerSelect.disabled = true;
+        } else {
+          districtManagerSelect.disabled = false;
+        }
+      });
+
+      districtManagerSelect.addEventListener('change', function() {
+        if (districtManagerSelect.value) {
+          storeNumberSelect.disabled = true;
+        } else {
+          storeNumberSelect.disabled = false;
+        }
+      });
+      
       const districtManagerStores = {
         '1': ['317', '318'],
         '2': ['307', '309'],
@@ -198,65 +269,101 @@
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
         const pageData = data.slice(start, end);
-    
+
         const resultsContainer = document.getElementById('resultsContainer');
         resultsContainer.innerHTML = '';
-    
+
         if (pageData.length === 0) {
             document.getElementById('errorMessage').textContent = 'No records found.';
         } else {
             document.getElementById('errorMessage').textContent = '';
-    
+
             pageData.forEach(row => {
                 const card = document.createElement('div');
                 card.className = 'card';
-    
+
                 const cardHeader = document.createElement('div');
                 cardHeader.className = 'card-header';
                 cardHeader.textContent = `Store Number: ${row[0]} | Start Date: ${formatDate(row[1])}`;
                 card.appendChild(cardHeader);
-    
+
                 const startDate = new Date(row[1]);
-    
-                row.slice(2).forEach((cell, index) => {
+
+                const employeeName = document.createElement('div');
+                employeeName.className = 'card-employee-name';
+                employeeName.innerHTML = `<strong>Employee Name:</strong> <span>${row[2]}</span>`;
+                card.appendChild(employeeName);
+
+                const week1 = document.createElement('div');
+                week1.className = 'week';
+
+                const week2 = document.createElement('div');
+                week2.className = 'week';
+
+                row.slice(3, 10).forEach((cell, index) => {
                     const detail = document.createElement('div');
                     detail.className = 'card-detail';
-                    const headerLabel = getHeaderLabel(index + 2);
-                    let detailContent = `<strong>${headerLabel}`;
-    
-                    if (index >= 0) {
-                        const dateLabel = getDateLabel(startDate, index);
-                        detailContent += ` (${dateLabel})`;
-                    }
-    
-                    detailContent += `:</strong> ${cell}`;
-                    detail.innerHTML = detailContent;
-    
-                    if (index === 6 || index === 13) { // Grey out Sundays
+                    const headerLabel = getHeaderLabel(index + 3);
+                    const dateLabel = getDateLabel(startDate, index);
+                    detail.innerHTML = `<strong>${headerLabel} (${dateLabel}):</strong> <span>${cell}</span>`;
+
+                    if (index === 6) { // Grey out Sundays
                         detail.classList.add('grey-out');
                     }
-    
-                    card.appendChild(detail);
+
+                    week1.appendChild(detail);
                 });
-    
+
+                row.slice(10, 17).forEach((cell, index) => {
+                    const detail = document.createElement('div');
+                    detail.className = 'card-detail';
+                    const headerLabel = getHeaderLabel(index + 10);
+                    const dateLabel = getDateLabel(startDate, index + 7);
+                    detail.innerHTML = `<strong>${headerLabel} (${dateLabel}):</strong> <span>${cell}</span>`;
+
+                    if (index === 6) { // Grey out Sundays
+                        detail.classList.add('grey-out');
+                    }
+
+                    week2.appendChild(detail);
+                });
+
+                const weeksContainer = document.createElement('div');
+                weeksContainer.className = 'weeks-container';
+                weeksContainer.appendChild(week1);
+                weeksContainer.appendChild(week2);
+                card.appendChild(weeksContainer);
+
                 const cardFooter = document.createElement('div');
                 cardFooter.className = 'card-footer';
                 card.appendChild(cardFooter);
-    
+
                 resultsContainer.appendChild(card);
             });
         }
     }
-    
+
     function getDateLabel(startDate, offset) {
         const date = new Date(startDate);
         date.setDate(startDate.getDate() + offset);
         return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}`;
     }
 
+    function getHeaderLabel(index) {
+        const headers = [
+            "Store Number", "Start Date", "Employee Name",
+            "Monday", "Tuesday", "Wednesday",
+            "Thursday", "Friday", "Saturday",
+            "Sunday", "Monday", "Tuesday",
+            "Wednesday", "Thursday", "Friday",
+            "Saturday", "Sunday"
+        ];
+        return headers[index];
+    }
+
       function formatDate(dateStr) {
         const date = new Date(dateStr);
-                return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
+        return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
       }
 
       function getHeaderLabel(index) {
