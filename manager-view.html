@@ -201,7 +201,7 @@
       <label for="employeeName">Employee Name</label>
       <input type="text" id="employeeName" name="employeeName">
       <label for="startDate">Start Date - First Monday of the Pay Period</label>
-      <input type="date" id="startDate" name="startDate">
+      <input type="date" id="startDate" name="startDate" onchange="checkDate()">
       <button type="submit" id="searchButton">Search</button>
     </form>
     <br>
@@ -237,7 +237,7 @@
           storeNumberSelect.disabled = false;
         }
       });
-      
+
       const districtManagerStores = {
         '1': ['317', '318'],
         '2': ['307', '309'],
@@ -340,6 +340,8 @@
 
                 resultsContainer.appendChild(card);
             });
+
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
@@ -399,6 +401,18 @@
         }
       }
 
+      function checkDate() {
+        const startDate = document.getElementById('startDate').value;
+        console.log('Selected startDate:', startDate);
+        const date = new Date(startDate);
+        const dayOfWeek = date.getUTCDay();
+        console.log('Day of the week:', dayOfWeek);
+        if (dayOfWeek !== 1) { // 1 represents Monday
+          alert("Please select the first Monday of the pay period.");
+          document.getElementById('startDate').value = "";
+        }
+      }
+
       fetchData();
 
       document.getElementById('searchForm').addEventListener('submit', function(event) {
@@ -428,6 +442,7 @@
       // Define the nextPage and prevPage functions so they are available globally
       window.nextPage = nextPage;
       window.prevPage = prevPage;
+      window.checkDate = checkDate;
     });
   </script>
 </body>
