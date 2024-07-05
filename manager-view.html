@@ -137,107 +137,7 @@
       }
     }
   </style>
-</head>
-<body>
-  <header>
-    <h1>Schedule Search</h1>
-  </header>
-  <div class="container">
-    <form id="searchForm">
-      <label for="districtManager">District Manager</label>
-      <select id="districtManager" name="districtManager">
-        <option value="">Select District Manager</option>
-        <option value="1">Joe Lehecka</option>
-        <option value="2">John Shook</option>
-        <option value="3">Tim York</option>
-        <option value="4">John Dacey</option>
-        <option value="5">Brian Streit</option>
-        <option value="6">Johnny Lehecka</option>
-      </select>
-      <label for="storeNumber">Store Number</label>
-      <select id="storeNumber" name="storeNumber">
-        <option value="">###</option>
-        <option value="1">1</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="104">104</option>
-        <option value="105">105</option>
-        <option value="107">107</option>
-        <option value="108">108</option>
-        <option value="109">109</option>
-        <option value="110">110</option>
-        <option value="201">201</option>
-        <option value="202">202</option>
-        <option value="203">203</option>
-        <option value="204">204</option>
-        <option value="205">205</option>
-        <option value="206">206</option>
-        <option value="207">207</option>
-        <option value="208">208</option>
-        <option value="301">301</option>
-        <option value="302">302</option>
-        <option value="305">305</option>
-        <option value="307">307</option>
-        <option value="308">308</option>
-        <option value="309">309</option>
-        <option value="311">311</option>
-        <option value="312">312</option>
-        <option value="313">313</option>
-        <option value="314">314</option>
-        <option value="316">316</option>
-        <option value="317">317</option>
-        <option value="318">318</option>
-        <option value="319">319</option>
-        <option value="321">321</option>
-        <option value="Admin">Admin</option>
-      </select>
-      <label for="employeeName">Employee Name</label>
-      <input type="text" id="employeeName" name="employeeName">
-      <label for="startDate">Start Date - First Monday of the Pay Period</label>
-      <input type="date" id="startDate" name="startDate">
-      <button type="submit" id="searchButton">Search</button>
-    </form>
-    <div id="errorMessage" class="error-message"></div>
-    <div class="table-container">
-      <table id="resultsTable">
-        <thead>
-          <tr>
-            <th rowspan="2">Store Number</th>
-            <th rowspan="2">Start Date</th>
-            <th rowspan="2">Employee Name</th>
-            <th colspan="7">Week 1</th>
-            <th colspan="7">Week 2</th>
-          </tr>
-          <tr>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-            <th class="grey-out">Sunday</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-            <th class="grey-out">Sunday</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="pagination">
-      <button id="prevButton" onclick="prevPage()" disabled>Previous</button>
-      <button id="nextButton" onclick="nextPage()" disabled>Next</button>
-    </div>
-  </div>
-  <script>
+   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const districtManagerStores = {
         '1': ['317', '318'],
@@ -348,5 +248,105 @@
       });
     });
   </script>
+</head>
+<body>
+  <header>
+    <h1>Schedule Search</h1>
+  </header>
+  <div class="container">
+    <form id="searchForm">
+      <label for="districtManager">District Manager</label>
+      <select id="districtManager" name="districtManager">
+        <option value="">Select District Manager</option>
+        <option value="1">Joe Lehecka</option>
+        <option value="2">John Shook</option>
+        <option value="3">Tim York</option>
+        <option value="4">John Dacey</option>
+        <option value="5">Brian Streit</option>
+        <option value="6">Johnny Lehecka</option>
+      </select>
+      <label for="storeNumber">Store Number</label>
+      <select id="storeNumber" name="storeNumber">
+        <option value="">###</option>
+        <option value="1">1</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="104">104</option>
+        <option value="105">105</option>
+        <option value="107">107</option>
+        <option value="108">108</option>
+        <option value="109">109</option>
+        <option value="110">110</option>
+        <option value="201">201</option>
+        <option value="202">202</option>
+        <option value="203">203</option>
+        <option value="204">204</option>
+        <option value="205">205</option>
+        <option value="206">206</option>
+        <option value="207">207</option>
+        <option value="208">208</option>
+        <option value="301">301</option>
+        <option value="302">302</option>
+        <option value="305">305</option>
+        <option value="307">307</option>
+        <option value="308">308</option>
+        <option value="309">309</option>
+        <option value="311">311</option>
+        <option value="312">312</option>
+        <option value="313">313</option>
+        <option value="314">314</option>
+        <option value="316">316</option>
+        <option value="317">317</option>
+        <option value="318">318</option>
+        <option value="319">319</option>
+        <option value="321">321</option>
+        <option value="Admin">Admin</option>
+      </select>
+      <label for="employeeName">Employee Name</label>
+      <input type="text" id="employeeName" name="employeeName">
+      <label for="startDate">Start Date - First Monday of the Pay Period</label>
+      <input type="date" id="startDate" name="startDate">
+      <button type="submit" id="searchButton">Search</button>
+    </form>
+    <div id="errorMessage" class="error-message"></div>
+    <div class="table-container">
+      <table id="resultsTable">
+        <thead>
+          <tr>
+            <th rowspan="2">Store Number</th>
+            <th rowspan="2">Start Date</th>
+            <th rowspan="2">Employee Name</th>
+            <th colspan="7">Week 1</th>
+            <th colspan="7">Week 2</th>
+          </tr>
+          <tr>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+            <th class="grey-out">Sunday</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+            <th class="grey-out">Sunday</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <button id="prevButton" onclick="prevPage()" disabled>Previous</button>
+      <button id="nextButton" onclick="nextPage()" disabled>Next</button>
+    </div>
+  </div>
 </body>
 </html>
