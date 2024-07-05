@@ -29,27 +29,29 @@
     }
     form {
       margin: 20px 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
     }
     label {
       display: block;
       margin-bottom: 5px;
       font-weight: bold;
     }
-    select, input[type="date"], input[type="text"], #searchButton {
+    select, input[type="date"], input[type="text"] {
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      flex: 1;
-      margin-right: 10px;
+      width: 100%;
+      box-sizing: border-box;
     }
     #searchButton {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
       background-color: #218f50;
       color: white;
       cursor: pointer;
-      max-width: 25%;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 10px;
     }
     #searchButton:hover {
       background-color: #155e35;
@@ -87,6 +89,7 @@
       border: 1px solid #ccc;
       background-color: #fff;
       cursor: pointer;
+      margin: 0 5px;
     }
     .pagination button:hover {
       background-color: #ddd;
@@ -96,10 +99,31 @@
       cursor: not-allowed;
     }
     @media (max-width: 768px) {
-      select, input[type="date"], input[type="text"], #searchButton {
-        flex: 100%;
-        margin: 5px 0;
+      table, thead, tbody, th, td, tr {
+        display: block;
       }
+      th, td {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      th {
+        position: static;
+        background-color: #333;
+        color: white;
+      }
+      tr {
+        margin-bottom: 10px;
+      }
+      .pagination {
+        flex-direction: column;
+      }
+      .pagination button {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+    .grey-out {
+      background-color: #e0e0e0;
     }
   </style>
 </head>
@@ -119,51 +143,50 @@
           <option value="4">John Dacey</option>
           <option value="5">Brian Streit</option>
           <option value="6">Johnny Lehecka</option>
-          <!-- Add more managers as needed -->
         </select>
       </div>
       <div>
         <label for="storeNumber">Store Number</label>
-          <select id="storeNumber" name="storeNumber">
-            <option value="">###</option>
-            <option value="1">1</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="104">104</option>
-            <option value="105">105</option>
-            <option value="107">107</option>
-            <option value="108">108</option>
-            <option value="109">109</option>
-            <option value="110">110</option>
-            <option value="201">201</option>
-            <option value="202">202</option>
-            <option value="203">203</option>
-            <option value="204">204</option>
-            <option value="205">205</option>
-            <option value="206">206</option>
-            <option value="207">207</option>
-            <option value="208">208</option>
-            <option value="301">301</option>
-            <option value="302">302</option>
-            <option value="305">305</option>
-            <option value="307">307</option>
-            <option value="308">308</option>
-            <option value="309">309</option>
-            <option value="311">311</option>
-            <option value="312">312</option>
-            <option value="313">313</option>
-            <option value="314">314</option>
-            <option value="316">316</option>
-            <option value="317">317</option>
-            <option value="318">318</option>
-            <option value="319">319</option>
-            <option value="321">321</option>
-            <option value="Admin">Admin</option>
-          </select>
+        <select id="storeNumber" name="storeNumber">
+          <option value="">###</option>
+          <option value="1">1</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="104">104</option>
+          <option value="105">105</option>
+          <option value="107">107</option>
+          <option value="108">108</option>
+          <option value="109">109</option>
+          <option value="110">110</option>
+          <option value="201">201</option>
+          <option value="202">202</option>
+          <option value="203">203</option>
+          <option value="204">204</option>
+          <option value="205">205</option>
+          <option value="206">206</option>
+          <option value="207">207</option>
+          <option value="208">208</option>
+          <option value="301">301</option>
+          <option value="302">302</option>
+          <option value="305">305</option>
+          <option value="307">307</option>
+          <option value="308">308</option>
+          <option value="309">309</option>
+          <option value="311">311</option>
+          <option value="312">312</option>
+          <option value="313">313</option>
+          <option value="314">314</option>
+          <option value="316">316</option>
+          <option value="317">317</option>
+          <option value="318">318</option>
+          <option value="319">319</option>
+          <option value="321">321</option>
+          <option value="Admin">Admin</option>
+        </select>
       </div>
       <div>
         <label for="employeeName">Employee Name</label>
@@ -192,14 +215,14 @@
           <th>Thursday</th>
           <th>Friday</th>
           <th>Saturday</th>
-          <th>Sunday</th>
+          <th class="grey-out">Sunday</th>
           <th>Monday</th>
           <th>Tuesday</th>
           <th>Wednesday</th>
           <th>Thursday</th>
           <th>Friday</th>
           <th>Saturday</th>
-          <th>Sunday</th>
+          <th class="grey-out">Sunday</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -217,7 +240,7 @@
         '3': ['104', '105', '107', '108', '109', '110', '201', '202', '203', '204', '205', '206', '207', '208'],
         '4': ['302', '319', '308'],
         '5': ['301', '305', '311', '312', '313', '314', '316'],
-        '6': ['1', '4', '5', '6', '7', '10', '11']
+                '6': ['1', '4', '5', '6', '7', '10', '11']
       };
 
       const rowsPerPage = 10;
@@ -230,7 +253,7 @@
           .then(fetchedData => {
             data = fetchedData;
             currentPage = 1;
-                        displayPage(currentPage);
+            displayPage(currentPage);
             updatePagination();
           })
           .catch(error => {
@@ -261,6 +284,9 @@
                 td.textContent = formattedDate;
               } else {
                 td.textContent = cell;
+              }
+              if ((index === 7) || (index === 14)) { // Grey out Sundays
+                td.classList.add('grey-out');
               }
               tr.appendChild(td);
             });
