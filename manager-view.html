@@ -55,51 +55,9 @@
     #searchButton:hover {
       background-color: #155e35;
     }
-    .table-container {
-      overflow-x: auto;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      padding: 10px;
-      text-align: center;
-      border: 1px solid #ddd;
-    }
-    th {
-      background-color: #333;
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #f4f4f4;
-    }
     .error-message {
       color: red;
       font-weight: bold;
-    }
-    .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-    .pagination button {
-      padding: 10px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      cursor: pointer;
-      margin: 0 5px;
-    }
-    .pagination button:hover {
-      background-color: #ddd;
-    }
-    .pagination button:disabled {
-      background-color: #f4f4f4;
-      cursor: not-allowed;
-    }
-    .grey-out {
-      background-color: #e0e0e0;
     }
     .card {
       background: white;
@@ -112,54 +70,11 @@
       font-weight: bold;
       margin-bottom: 10px;
     }
-    @media (max-width: 768px) {
-      .container {
-        width: 100%;
-        padding: 0 10px;
-      }
-      form {
-        display: flex;
-        flex-direction: column;
-      }
-      .table-container {
-        overflow-x: auto;
-      }
-      table, thead, tbody, th, td, tr {
-        display: block;
-      }
-      th, td {
-        width: 100%;
-        box-sizing: border-box;
-      }
-      th {
-        position: static;
-        background-color: #333;
-        color: white;
-      }
-      tr {
-        margin-bottom: 10px;
-      }
-      .pagination {
-        flex-direction: column;
-      }
-      .pagination button {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-      table th, table td {
-        text-align: left;
-      }
-      table td {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-      }
-      table td:before {
-        content: attr(data-label);
-        flex: 1;
-        font-weight: bold;
-      }
+    .card-detail {
+      margin-bottom: 8px;
+    }
+    .grey-out {
+      background-color: #e0e0e0;
     }
   </style>
 </head>
@@ -250,7 +165,7 @@
 
       function fetchData(query = '') {
         fetch(`https://script.google.com/macros/s/AKfycbx_m0p7-I0r56j2YL_oa9luMkxoN_NlBLlEpRGv96p9MQsk8XqTAEDkAwKbUCCczG34rg/exec${query}`)
-                    .then(response => response.json())
+          .then(response => response.json())
           .then(fetchedData => {
             data = fetchedData;
             currentPage = 1;
@@ -284,10 +199,17 @@
             cardHeader.textContent = `Store Number: ${row[0]} | Start Date: ${formatDate(row[1])}`;
             card.appendChild(cardHeader);
 
+            const startDate = new Date(row[1]);
+
             row.slice(2).forEach((cell, index) => {
               const detail = document.createElement('div');
               detail.className = 'card-detail';
-              detail.innerHTML = `<strong>${getHeaderLabel(index + 2)}:</strong> ${cell}`;
+              const dayLabel = getHeaderLabel(index + 2);
+              const dateLabel = getDateLabel(startDate, index);
+              detail.innerHTML = `<strong>${dayLabel} (${dateLabel}):</strong> ${cell}`;
+              if (index === 6 || index === 13) { // Grey out Sundays
+                detail.classList.add('grey-out');
+              }
               card.appendChild(detail);
             });
 
@@ -298,7 +220,7 @@
 
       function formatDate(dateStr) {
         const date = new Date(dateStr);
-        return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
+                return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
       }
 
       function getHeaderLabel(index) {
@@ -311,6 +233,12 @@
           "Saturday (Week 2)", "Sunday (Week 2)"
         ];
         return headers[index];
+      }
+
+      function getDateLabel(startDate, offset) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + offset);
+        return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}`;
       }
 
       function updatePagination() {
