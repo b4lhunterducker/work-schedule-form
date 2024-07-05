@@ -110,6 +110,9 @@
         display: flex;
         flex-direction: column;
       }
+      .table-container {
+        overflow-x: auto;
+      }
       table, thead, tbody, th, td, tr {
         display: block;
       }
@@ -250,7 +253,7 @@
       let data = [];
 
       function fetchData(query = '') {
-                fetch(`https://script.google.com/macros/s/AKfycbx_m0p7-I0r56j2YL_oa9luMkxoN_NlBLlEpRGv96p9MQsk8XqTAEDkAwKbUCCczG34rg/exec${query}`)
+          fetch(`https://script.google.com/macros/s/AKfycbx_m0p7-I0r56j2YL_oa9luMkxoN_NlBLlEpRGv96p9MQsk8XqTAEDkAwKbUCCczG34rg/exec${query}`)
           .then(response => response.json())
           .then(fetchedData => {
             data = fetchedData;
@@ -347,4 +350,3 @@
   </script>
 </body>
 </html>
-
