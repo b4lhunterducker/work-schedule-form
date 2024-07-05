@@ -137,117 +137,6 @@
       }
     }
   </style>
-   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const districtManagerStores = {
-        '1': ['317', '318'],
-        '2': ['307', '309'],
-        '3': ['104', '105', '107', '108', '109', '110', '201', '202', '203', '204', '205', '206', '207', '208'],
-        '4': ['302', '319', '308'],
-        '5': ['301', '305', '311', '312', '313', '314', '316'],
-        '6': ['1', '4', '5', '6', '7', '10', '11']
-      };
-
-      const rowsPerPage = 10;
-      let currentPage = 1;
-      let data = [];
-
-      function fetchData(query = '') {
-          fetch(`https://script.google.com/macros/s/AKfycbx_m0p7-I0r56j2YL_oa9luMkxoN_NlBLlEpRGv96p9MQsk8XqTAEDkAwKbUCCczG34rg/exec${query}`)
-          .then(response => response.json())
-          .then(fetchedData => {
-            data = fetchedData;
-            currentPage = 1;
-            displayPage(currentPage);
-            updatePagination();
-          })
-          .catch(error => {
-            document.getElementById('errorMessage').textContent = 'Error fetching data: ' + error.message;
-          });
-      }
-
-      function displayPage(page) {
-        const start = (page - 1) * rowsPerPage;
-        const end = start + rowsPerPage;
-        const pageData = data.slice(start, end);
-
-        const tbody = document.getElementById('resultsTable').querySelector('tbody');
-        tbody.innerHTML = '';
-
-        if (pageData.length === 0) {
-          document.getElementById('errorMessage').textContent = 'No records found.';
-        } else {
-          document.getElementById('errorMessage').textContent = '';
-
-          pageData.forEach(row => {
-            const tr = document.createElement('tr');
-            row.forEach((cell, index) => {
-              const td = document.createElement('td');
-              if (index === 1) {
-                const date = new Date(cell);
-                const formattedDate = `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
-                td.textContent = formattedDate;
-              } else {
-                td.textContent = cell;
-              }
-              if ((index === 9) || (index === 16)) { // Grey out Sundays
-                td.classList.add('grey-out');
-              }
-              tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
-          });
-        }
-      }
-
-      function updatePagination() {
-        document.getElementById('prevButton').disabled = currentPage === 1;
-        document.getElementById('nextButton').disabled = currentPage * rowsPerPage >= data.length;
-      }
-
-      function prevPage() {
-        if (currentPage > 1) {
-          currentPage--;
-          displayPage(currentPage);
-          updatePagination();
-        }
-      }
-
-      function nextPage() {
-        if (currentPage * rowsPerPage < data.length) {
-          currentPage++;
-          displayPage(currentPage);
-          updatePagination();
-        }
-      }
-
-      fetchData();
-
-      document.getElementById('searchForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const storeNumber = document.getElementById('storeNumber').value;
-        const employeeName = document.getElementById('employeeName').value;
-        const startDate = document.getElementById('startDate').value;
-        const districtManager = document.getElementById('districtManager').value;
-
-        const query = new URLSearchParams();
-
-        if (districtManager) {
-          const stores = districtManagerStores[districtManager] || [];
-          if (stores.length > 0) {
-            query.append('storeNumber', stores.join(','));
-          }
-        }
-
-        if (storeNumber) query.append('storeNumber', storeNumber);
-        if (employeeName) query.append('employeeName', employeeName);
-        if (startDate) query.append('startDate', startDate);
-
-        fetchData(`?${query.toString()}`);
-      });
-    });
-  </script>
 </head>
 <body>
   <header>
@@ -348,5 +237,120 @@
       <button id="nextButton" onclick="nextPage()" disabled>Next</button>
     </div>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const districtManagerStores = {
+        '1': ['317', '318'],
+        '2': ['307', '309'],
+        '3': ['104', '105', '107', '108', '109', '110', '201', '202', '203', '204', '205', '206', '207', '208'],
+        '4': ['302', '319', '308'],
+                '5': ['301', '305', '311', '312', '313', '314', '316'],
+        '6': ['1', '4', '5', '6', '7', '10', '11']
+      };
+
+      const rowsPerPage = 10;
+      let currentPage = 1;
+      let data = [];
+
+      function fetchData(query = '') {
+        fetch(`https://script.google.com/macros/s/AKfycbx_m0p7-I0r56j2YL_oa9luMkxoN_NlBLlEpRGv96p9MQsk8XqTAEDkAwKbUCCczG34rg/exec${query}`)
+          .then(response => response.json())
+          .then(fetchedData => {
+            data = fetchedData;
+            currentPage = 1;
+            displayPage(currentPage);
+            updatePagination();
+          })
+          .catch(error => {
+            document.getElementById('errorMessage').textContent = 'Error fetching data: ' + error.message;
+          });
+      }
+
+      function displayPage(page) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const pageData = data.slice(start, end);
+
+        const tbody = document.getElementById('resultsTable').querySelector('tbody');
+        tbody.innerHTML = '';
+
+        if (pageData.length === 0) {
+          document.getElementById('errorMessage').textContent = 'No records found.';
+        } else {
+          document.getElementById('errorMessage').textContent = '';
+
+          pageData.forEach(row => {
+            const tr = document.createElement('tr');
+            row.forEach((cell, index) => {
+              const td = document.createElement('td');
+              if (index === 1) {
+                const date = new Date(cell);
+                const formattedDate = `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
+                td.textContent = formattedDate;
+              } else {
+                td.textContent = cell;
+              }
+              if ((index === 9) || (index === 16)) { // Grey out Sundays
+                td.classList.add('grey-out');
+              }
+              tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+          });
+        }
+      }
+
+      function updatePagination() {
+        document.getElementById('prevButton').disabled = currentPage === 1;
+        document.getElementById('nextButton').disabled = currentPage * rowsPerPage >= data.length;
+      }
+
+      function prevPage() {
+        if (currentPage > 1) {
+          currentPage--;
+          displayPage(currentPage);
+          updatePagination();
+        }
+      }
+
+      function nextPage() {
+        if (currentPage * rowsPerPage < data.length) {
+          currentPage++;
+          displayPage(currentPage);
+          updatePagination();
+        }
+      }
+
+      fetchData();
+
+      document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const storeNumber = document.getElementById('storeNumber').value;
+        const employeeName = document.getElementById('employeeName').value;
+        const startDate = document.getElementById('startDate').value;
+        const districtManager = document.getElementById('districtManager').value;
+
+        const query = new URLSearchParams();
+
+        if (districtManager) {
+          const stores = districtManagerStores[districtManager] || [];
+          if (stores.length > 0) {
+            query.append('storeNumber', stores.join(','));
+          }
+        }
+
+        if (storeNumber) query.append('storeNumber', storeNumber);
+        if (employeeName) query.append('employeeName', employeeName);
+        if (startDate) query.append('startDate', startDate);
+
+        fetchData(`?${query.toString()}`);
+      });
+
+      // Define the nextPage and prevPage functions so they are available globally
+      window.nextPage = nextPage;
+      window.prevPage = prevPage;
+    });
+  </script>
 </body>
 </html>
