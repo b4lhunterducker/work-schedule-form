@@ -204,7 +204,7 @@
             row.slice(2).forEach((cell, index) => {
               const detail = document.createElement('div');
               detail.className = 'card-detail';
-              const dayLabel = getHeaderLabel(index + 3);
+              const dayLabel = getHeaderLabel(index + 1);
               const dateLabel = getDateLabel(startDate, index);
               detail.innerHTML = `<strong>${dayLabel} (${dateLabel}):</strong> ${cell}`;
               if (index === 6 || index === 13) { // Grey out Sundays
