@@ -70,12 +70,24 @@
       font-weight: bold;
       margin-bottom: 10px;
     }
-    .card-detail {
-      margin-bottom: 8px;
+    .card-header {
+      font-weight: bold;
+      margin-bottom: 10px;
+      background-color: #f8d7da;
+      padding: 10px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
     }
-    .grey-out {
+    .card-footer {
+      height: 5px;
+      background-color: #f8d7da;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+    .card-detail.grey-out {
       background-color: #e0e0e0;
     }
+
   </style>
 </head>
 <body>
@@ -222,10 +234,21 @@
                     card.appendChild(detail);
                 });
     
+                const cardFooter = document.createElement('div');
+                cardFooter.className = 'card-footer';
+                card.appendChild(cardFooter);
+    
                 resultsContainer.appendChild(card);
             });
         }
     }
+    
+    function getDateLabel(startDate, offset) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + offset);
+        return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}`;
+    }
+
 
       function formatDate(dateStr) {
         const date = new Date(dateStr);
@@ -242,12 +265,6 @@
           "Saturday", "Sunday"
         ];
         return headers[index];
-      }
-
-      function getDateLabel(startDate, offset) {
-        const date = new Date(startDate);
-        date.setDate(startDate.getDate() + offset);
-        return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}`;
       }
 
       function updatePagination() {
