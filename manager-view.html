@@ -73,20 +73,25 @@
     .card-header {
       font-weight: bold;
       margin-bottom: 10px;
-      background-color: #f8d7da;
+      background-color: #ff4d4d;
       padding: 10px;
+      color: white;
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
     }
+    
     .card-footer {
       height: 5px;
-      background-color: #f8d7da;
+      background-color: #ff4d4d;
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
+      margin-top: 10px;
     }
+    
     .card-detail.grey-out {
       background-color: #e0e0e0;
     }
+
 
   </style>
 </head>
@@ -219,8 +224,8 @@
                     const headerLabel = getHeaderLabel(index + 2);
                     let detailContent = `<strong>${headerLabel}`;
     
-                    if (index >= 2) {
-                        const dateLabel = getDateLabel(startDate, index - 2);
+                    if (index >= 0) {
+                        const dateLabel = getDateLabel(startDate, index);
                         detailContent += ` (${dateLabel})`;
                     }
     
@@ -248,7 +253,6 @@
         date.setDate(startDate.getDate() + offset);
         return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}`;
     }
-
 
       function formatDate(dateStr) {
         const date = new Date(dateStr);
