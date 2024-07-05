@@ -101,6 +101,17 @@
     .grey-out {
       background-color: #e0e0e0;
     }
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      padding: 15px;
+    }
+    .card-header {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
     @media (max-width: 768px) {
       .container {
         width: 100%;
@@ -216,36 +227,7 @@
       <button type="submit" id="searchButton">Search</button>
     </form>
     <div id="errorMessage" class="error-message"></div>
-    <div class="table-container">
-      <table id="resultsTable">
-        <thead>
-          <tr>
-            <th rowspan="2">Store Number</th>
-            <th rowspan="2">Start Date</th>
-            <th rowspan="2">Employee Name</th>
-            <th colspan="7">Week 1</th>
-            <th colspan="7">Week 2</th>
-          </tr>
-          <tr>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-            <th class="grey-out">Sunday</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-            <th class="grey-out">Sunday</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+    <div id="resultsContainer"></div>
     <div class="pagination">
       <button id="prevButton" onclick="prevPage()" disabled>Previous</button>
       <button id="nextButton" onclick="nextPage()" disabled>Next</button>
@@ -255,7 +237,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       const districtManagerStores = {
         '1': ['317', '318'],
-                '2': ['307', '309'],
+        '2': ['307', '309'],
         '3': ['104', '105', '107', '108', '109', '110', '201', '202', '203', '204', '205', '206', '207', '208'],
         '4': ['302', '319', '308'],
         '5': ['301', '305', '311', '312', '313', '314', '316'],
@@ -268,7 +250,7 @@
 
       function fetchData(query = '') {
         fetch(`https://script.google.com/macros/s/AKfycbx_m0p7-I0r56j2YL_oa9luMkxoN_NlBLlEpRGv96p9MQsk8XqTAEDkAwKbUCCczG34rg/exec${query}`)
-          .then(response => response.json())
+                    .then(response => response.json())
           .then(fetchedData => {
             data = fetchedData;
             currentPage = 1;
@@ -285,8 +267,8 @@
         const end = start + rowsPerPage;
         const pageData = data.slice(start, end);
 
-        const tbody = document.getElementById('resultsTable').querySelector('tbody');
-        tbody.innerHTML = '';
+        const resultsContainer = document.getElementById('resultsContainer');
+        resultsContainer.innerHTML = '';
 
         if (pageData.length === 0) {
           document.getElementById('errorMessage').textContent = 'No records found.';
@@ -294,25 +276,29 @@
           document.getElementById('errorMessage').textContent = '';
 
           pageData.forEach(row => {
-            const tr = document.createElement('tr');
-            row.forEach((cell, index) => {
-              const td = document.createElement('td');
-              td.setAttribute('data-label', getHeaderLabel(index));
-              if (index === 1) {
-                const date = new Date(cell);
-                const formattedDate = `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
-                td.textContent = formattedDate;
-              } else {
-                td.textContent = cell;
-              }
-              if ((index === 9) || (index === 16)) { // Grey out Sundays
-                td.classList.add('grey-out');
-              }
-              tr.appendChild(td);
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const cardHeader = document.createElement('div');
+            cardHeader.className = 'card-header';
+            cardHeader.textContent = `Store Number: ${row[0]} | Start Date: ${formatDate(row[1])}`;
+            card.appendChild(cardHeader);
+
+            row.slice(2).forEach((cell, index) => {
+              const detail = document.createElement('div');
+              detail.className = 'card-detail';
+              detail.innerHTML = `<strong>${getHeaderLabel(index + 2)}:</strong> ${cell}`;
+              card.appendChild(detail);
             });
-            tbody.appendChild(tr);
+
+            resultsContainer.appendChild(card);
           });
         }
+      }
+
+      function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
       }
 
       function getHeaderLabel(index) {
