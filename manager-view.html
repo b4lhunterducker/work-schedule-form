@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://d3j0t7vrtr92dk.cloudfront.net/brakes4less/1691091298_favicon.png" rel="shortcut icon">
-  <title>Schedule Search</title>
+  <title>Schedule Management</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -28,6 +28,7 @@
     }
     form {
       margin: 20px 0;
+      margin-bottom: 50px;
     }
     label {
       display: block;
@@ -38,7 +39,7 @@
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      width: 100%;
+      width: 50%;
       box-sizing: border-box;
       margin-bottom: 10px;
     }
@@ -50,8 +51,8 @@
       background-color: #218f50;
       color: white;
     }
-    .pageButton:disabled{
-      color:black;
+    .pageButton:disabled {
+      color: black;
       background-color: grey;
     }
     #searchButton {
@@ -67,177 +68,225 @@
     #searchButton:hover {
       background-color: #155e35;
     }
+    .checkStatusButton {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #218f50;
+      color: white;
+      margin-bottom: 100px;
+    }
     .error-message {
       color: red;
       font-weight: bold;
     }
     .card-header {
-        font-weight: bold;
-        background-color: #ff4d4d;
-        color: white;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-        padding: 10px;
-        width: calc(100% + 30px);
-        margin-left: -15px;
-        margin-top: -15px;
-        box-sizing: border-box;
+      font-weight: bold;
+      background-color: #ff4d4d;
+      color: white;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      padding: 10px;
+      width: calc(100% + 30px);
+      margin-left: -15px;
+      margin-top: -15px;
+      box-sizing: border-box;
     }
-
     .card {
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-bottom: 50px;
-        padding: 15px;
-        padding-top: 0;
-        padding-bottom: 0;
-        position: relative;
-        box-sizing: border-box;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      padding: 15px;
+      padding-top: 0;
+      padding-bottom: 0px;
+      margin-bottom: 50px;
+      position: relative;
+      box-sizing: border-box;
     }
-
     .card-employee-name {
-        text-align: center;
-        padding: 10px 0;
-        font-weight: bold;
-        border-bottom: 1px solid #ddd;
-        margin-bottom: 10px;
+      text-align: center;
+      padding: 10px 0;
+      font-weight: bold;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 10px;
     }
-
     .card-detail {
-        margin-bottom: 8px;
-        display: flex;
-        justify-content: space-between;
-        padding: 5px 0;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
     }
-
     .card-detail.grey-out {
-        background-color: #e0e0e0;
+      background-color: #e0e0e0;
     }
-
     .card-detail strong {
-        flex: 1;
-        font-weight: bold;
-        color: #333;
+      flex: 1;
+      font-weight: bold;
+      color: #333;
     }
-
     .card-detail span {
-        flex: 1;
-        text-align: right;
+      flex: 1;
+      text-align: right;
     }
-
     .weeks-container {
-        display: flex;
-        justify-content: space-between;
-        border-top: 1px solid #ddd;
-        padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
     }
-
     .week {
-        width: 48%;
+      width: 48%;
     }
-
-
-
+    .store-status {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .store-status div {
+      width: 15%;
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      text-align: center;
+      justify-content: center;
+    }
+    .store-status div span {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      border-radius: 50%;
+      background-color: grey;
+      margin-right: 10px;
+    }
+    .store-status div span.green {
+      background-color: green;
+    }
+    .store-status div span.red {
+      background-color: red;
+    }
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .tabs button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+      width: 48%;
+    }
+    .tabs button.active {
+      background-color: #218f50;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      justify-content: center;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Schedule Search</h1>
+    <h1>Schedule Management</h1>
   </header>
+  <br>
+  <br>
   <div class="container">
-    <form id="searchForm">
-      <label for="districtManager">District Manager</label>
-      <select id="districtManager" name="districtManager">
-        <option value="">Select District Manager</option>
-        <option value="1">Joe Lehecka</option>
-        <option value="2">John Shook</option>
-        <option value="3">Tim York</option>
-        <option value="4">John Dacey</option>
-        <option value="5">Brian Streit</option>
-        <option value="6">Johnny Lehecka</option>
-      </select>
-      <label for="storeNumber">Store Number</label>
-      <select id="storeNumber" name="storeNumber">
-        <option value="">###</option>
-        <option value="1">1</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="104">104</option>
-        <option value="105">105</option>
-        <option value="107">107</option>
-        <option value="108">108</option>
-        <option value="109">109</option>
-        <option value="110">110</option>
-        <option value="201">201</option>
-        <option value="202">202</option>
-        <option value="203">203</option>
-        <option value="204">204</option>
-        <option value="205">205</option>
-        <option value="206">206</option>
-        <option value="207">207</option>
-        <option value="208">208</option>
-        <option value="301">301</option>
-        <option value="302">302</option>
-        <option value="305">305</option>
-        <option value="307">307</option>
-        <option value="308">308</option>
-        <option value="309">309</option>
-        <option value="311">311</option>
-        <option value="312">312</option>
-        <option value="313">313</option>
-        <option value="314">314</option>
-        <option value="316">316</option>
-        <option value="317">317</option>
-        <option value="318">318</option>
-        <option value="319">319</option>
-        <option value="321">321</option>
-        <option value="Admin">Admin</option>
-      </select>
-      <label for="employeeName">Employee Name</label>
-      <input type="text" id="employeeName" name="employeeName">
-      <label for="startDate">Start Date - First Monday of the Pay Period</label>
-      <input type="date" id="startDate" name="startDate" onchange="checkDate()">
-      <button type="submit" id="searchButton">Search</button>
-    </form>
-    <br>
-    <br>
-    <div id="errorMessage" class="error-message"></div>
-    <div id="resultsContainer"></div>
-    <br>
-    <br>
-    <div class="pagination">
-      <button id="prevButton" class="pageButton" onclick="prevPage()" disabled>Previous</button>
-      <button id="nextButton" class="pageButton" onclick="nextPage()" disabled>Next</button>
+    <div class="tabs">
+      <button id="searchTab" class="active" onclick="showTab('search')">Search Schedules</button>
+      <button id="statusTab" onclick="showTab('status')">Store Submission Status</button>
     </div>
-    <br>
-    <br>
+    <div id="search" class="tab-content active">
+      <form id="searchForm">
+        <label for="districtManager">District Manager</label>
+        <select id="districtManager" name="districtManager">
+          <option value="">Select District Manager</option>
+          <option value="1">Joe Lehecka</option>
+          <option value="2">John Shook</option>
+          <option value="3">Tim York</option>
+          <option value="4">John Dacey</option>
+          <option value="5">Brian Streit</option>
+          <option value="6">Johnny Lehecka</option>
+        </select>
+        <label for="storeNumber">Store Number</label>
+        <select id="storeNumber" name="storeNumber">
+          <option value="">###</option>
+          <option value="1">1</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="104">104</option>
+          <option value="105">105</option>
+          <option value="107">107</option>
+          <option value="108">108</option>
+          <option value="109">109</option>
+          <option value="110">110</option>
+          <option value="201">201</option>
+          <option value="202">202</option>
+          <option value="203">203</option>
+          <option value="204">204</option>
+          <option value="205">205</option>
+          <option value="206">206</option>
+          <option value="207">207</option>
+          <option value="208">208</option>
+          <option value="301">301</option>
+          <option value="302">302</option>
+          <option value="305">305</option>
+          <option value="307">307</option>
+          <option value="308">308</option>
+          <option value="309">309</option>
+          <option value="311">311</option>
+          <option value="312">312</option>
+          <option value="313">313</option>
+          <option value="314">314</option>
+          <option value="316">316</option>
+          <option value="317">317</option>
+          <option value="318">318</option>
+          <option value="319">319</option>
+          <option value="321">321</option>
+          <option value="Admin">Admin</option>
+        </select>
+        <label for="employeeName">Employee Name</label>
+        <input type="text" id="employeeName" name="employeeName">
+        <label for="startDate">Start Date - First Monday of the Pay Period</label>
+        <input type="date" id="startDate" name="startDate">
+        <br>
+        <br>
+        <button type="submit" id="searchButton">Search</button>
+      </form>
+      <div id="errorMessage" class="error-message"></div>
+      <div id="resultsContainer"></div>
+      <br>
+      <div class="pagination">
+        <button id="prevButton" class="pageButton" onclick="prevPage()" disabled>Previous</button>
+        <button id="nextButton" class="pageButton" onclick="nextPage()" disabled>Next</button>
+      </div>
+      <br>
+      <br>
+    </div>
+    <div id="status" class="tab-content">
+      <br>
+      <br>
+      <label for="statusDate">Select Week Starting Date</label>
+      <input type="date" id="statusDate" name="statusDate">
+      <button id="checkStatusButton" class="checkStatusButton">Check Status</button>
+      <div class="store-status" id="storeStatus">
+        <!-- Store status circles will be generated here -->
+      </div>
+    </div>
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const storeNumberSelect = document.getElementById('storeNumber');
-      const districtManagerSelect = document.getElementById('districtManager');
-
-      storeNumberSelect.addEventListener('change', function() {
-        if (storeNumberSelect.value) {
-          districtManagerSelect.disabled = true;
-        } else {
-          districtManagerSelect.disabled = false;
-        }
-      });
-
-      districtManagerSelect.addEventListener('change', function() {
-        if (districtManagerSelect.value) {
-          storeNumberSelect.disabled = true;
-        } else {
-          storeNumberSelect.disabled = false;
-        }
-      });
-
       const districtManagerStores = {
         '1': ['317', '318'],
         '2': ['307', '309'],
@@ -246,6 +295,10 @@
         '5': ['301', '305', '311', '312', '313', '314', '316'],
         '6': ['1', '4', '5', '6', '7', '10', '11']
       };
+
+      const storeNumbers = [
+        '1', '4', '5', '6', '7', '10', '11', '104', '105', '107', '108', '109', '110', '201', '202', '203', '204', '205', '206', '207', '208', '301', '302', '305', '307', '308', '309', '311', '312', '313', '314', '316', '317', '318', '319', '321', 'Admin'
+      ];
 
       const rowsPerPage = 10;
       let currentPage = 1;
@@ -274,98 +327,75 @@
         resultsContainer.innerHTML = '';
 
         if (pageData.length === 0) {
-            document.getElementById('errorMessage').textContent = 'No records found.';
+          document.getElementById('errorMessage').textContent = 'No records found.';
         } else {
-            document.getElementById('errorMessage').textContent = '';
+          document.getElementById('errorMessage').textContent = '';
 
-            pageData.forEach(row => {
-                const card = document.createElement('div');
-                card.className = 'card';
+          pageData.forEach(row => {
+            const card = document.createElement('div');
+            card.className = 'card';
 
-                const cardHeader = document.createElement('div');
-                cardHeader.className = 'card-header';
-                cardHeader.textContent = `Store Number: ${row[0]} | Start Date: ${formatDate(row[1])}`;
-                card.appendChild(cardHeader);
+            const cardHeader = document.createElement('div');
+            cardHeader.className = 'card-header';
+            cardHeader.textContent = `Store Number: ${row[0]} | Start Date: ${formatDate(row[1])}`;
+            card.appendChild(cardHeader);
 
-                const startDate = new Date(row[1]);
+            const startDate = new Date(row[1]);
 
-                const employeeName = document.createElement('div');
-                employeeName.className = 'card-employee-name';
-                employeeName.innerHTML = `<strong>Employee Name:</strong> <span>${row[2]}</span>`;
-                card.appendChild(employeeName);
+            const employeeName = document.createElement('div');
+            employeeName.className = 'card-employee-name';
+            employeeName.innerHTML = `<strong>Employee Name:</strong> <span>${row[2]}</span>`;
+            card.appendChild(employeeName);
 
-                const week1 = document.createElement('div');
-                week1.className = 'week';
+            const week1 = document.createElement('div');
+            week1.className = 'week';
 
-                const week2 = document.createElement('div');
-                week2.className = 'week';
+            const week2 = document.createElement('div');
+            week2.className = 'week';
 
-                row.slice(3, 10).forEach((cell, index) => {
-                    const detail = document.createElement('div');
-                    detail.className = 'card-detail';
-                    const headerLabel = getHeaderLabel(index + 3);
-                    const dateLabel = getDateLabel(startDate, index);
-                    detail.innerHTML = `<strong>${headerLabel} (${dateLabel}):</strong> <span>${cell}</span>`;
+            row.slice(3, 10).forEach((cell, index) => {
+              const detail = document.createElement('div');
+              detail.className = 'card-detail';
+              const headerLabel = getHeaderLabel(index + 3);
+              const dateLabel = getDateLabel(startDate, index);
+              detail.innerHTML = `<strong>${headerLabel} (${dateLabel}):</strong> <span>${cell}</span>`;
 
-                    if (index === 6) { // Grey out Sundays
-                        detail.classList.add('grey-out');
-                    }
+              if (index === 6) { // Grey out Sundays
+                detail.classList.add('grey-out');
+              }
 
-                    week1.appendChild(detail);
-                });
-
-                row.slice(10, 17).forEach((cell, index) => {
-                    const detail = document.createElement('div');
-                    detail.className = 'card-detail';
-                    const headerLabel = getHeaderLabel(index + 10);
-                    const dateLabel = getDateLabel(startDate, index + 7);
-                    detail.innerHTML = `<strong>${headerLabel} (${dateLabel}):</strong> <span>${cell}</span>`;
-
-                    if (index === 6) { // Grey out Sundays
-                        detail.classList.add('grey-out');
-                    }
-
-                    week2.appendChild(detail);
-                });
-
-                const weeksContainer = document.createElement('div');
-                weeksContainer.className = 'weeks-container';
-                weeksContainer.appendChild(week1);
-                weeksContainer.appendChild(week2);
-                card.appendChild(weeksContainer);
-
-                const cardFooter = document.createElement('div');
-                cardFooter.className = 'card-footer';
-                card.appendChild(cardFooter);
-
-                resultsContainer.appendChild(card);
+              week1.appendChild(detail);
             });
 
-            resultsContainer.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
+            row.slice(10, 17).forEach((cell, index) => {
+              const detail = document.createElement('div');
+              detail.className = 'card-detail';
+              const headerLabel = getHeaderLabel(index + 10);
+              const dateLabel = getDateLabel(startDate, index + 7);
+              detail.innerHTML = `<strong>${headerLabel} (${dateLabel}):</strong> <span>${cell}</span>`;
 
-    function getDateLabel(startDate, offset) {
+              if (index === 6) { // Grey out Sundays
+                detail.classList.add('grey-out');
+              }
+
+              week2.appendChild(detail);
+            });
+
+            const weeksContainer = document.createElement('div');
+            weeksContainer.className = 'weeks-container';
+            weeksContainer.appendChild(week1);
+            weeksContainer.appendChild(week2);
+            card.appendChild(weeksContainer);
+
+            resultsContainer.appendChild(card);
+          });
+        }
+      }
+
+      function getDateLabel(startDate, offset) {
         const date = new Date(startDate);
         date.setDate(startDate.getDate() + offset);
         return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}`;
-    }
-
-    function getHeaderLabel(index) {
-        const headers = [
-            "Store Number", "Start Date", "Employee Name",
-            "Monday", "Tuesday", "Wednesday",
-            "Thursday", "Friday", "Saturday",
-            "Sunday", "Monday", "Tuesday",
-            "Wednesday", "Thursday", "Friday",
-            "Saturday", "Sunday"
-        ];
-        return headers[index];
-    }
-
-      function formatDate(dateStr) {
-        const date = new Date(dateStr);
-        return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
       }
 
       function getHeaderLabel(index) {
@@ -380,6 +410,11 @@
         return headers[index];
       }
 
+      function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return `${('0' + (date.getMonth() + 1)).slice(-2)}/${('0' + date.getDate()).slice(-2)}/${date.getFullYear()}`;
+      }
+
       function updatePagination() {
         document.getElementById('prevButton').disabled = currentPage === 1;
         document.getElementById('nextButton').disabled = currentPage * rowsPerPage >= data.length;
@@ -391,6 +426,7 @@
           displayPage(currentPage);
           updatePagination();
         }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
       function nextPage() {
@@ -399,18 +435,45 @@
           displayPage(currentPage);
           updatePagination();
         }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      function checkDate() {
-        const startDate = document.getElementById('startDate').value;
-        console.log('Selected startDate:', startDate);
-        const date = new Date(startDate);
-        const dayOfWeek = date.getUTCDay();
-        console.log('Day of the week:', dayOfWeek);
-        if (dayOfWeek !== 1) { // 1 represents Monday
-          alert("Please select the first Monday of the pay period.");
-          document.getElementById('startDate').value = "";
-        }
+      function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tabContent => {
+          tabContent.classList.remove('active');
+        });
+        document.getElementById(tabId).classList.add('active');
+        document.querySelectorAll('.tabs button').forEach(tabButton => {
+          tabButton.classList.remove('active');
+        });
+        document.getElementById(tabId + 'Tab').classList.add('active');
+      }
+
+      function checkStoreStatus(date) {
+        const query = new URLSearchParams({ date }).toString();
+        fetch(`https://script.google.com/macros/s/AKfycbx_m0p7-I0r56j2YL_oa9luMkxoN_NlBLlEpRGv96p9MQsk8XqTAEDkAwKbUCCczG34rg/exec?${query}`)
+          .then(response => response.json())
+          .then(data => {
+            const storeStatusContainer = document.getElementById('storeStatus');
+            storeStatusContainer.innerHTML = '';
+            storeNumbers.forEach(storeNumber => {
+              const storeDiv = document.createElement('div');
+              const statusCircle = document.createElement('span');
+              const storeText = document.createTextNode(storeNumber);
+              const startDateStr = new Date(date).toISOString().split('T')[0];
+              if (data.some(row => row[0].toString() === storeNumber && row[1].split('T')[0] === startDateStr)) {
+                statusCircle.classList.add('green');
+              } else {
+                statusCircle.classList.add('red');
+              }
+              storeDiv.appendChild(statusCircle);
+              storeDiv.appendChild(storeText);
+              storeStatusContainer.appendChild(storeDiv);
+            });
+          })
+          .catch(error => {
+            console.error('Error fetching store status:', error);
+          });
       }
 
       fetchData();
@@ -439,10 +502,29 @@
         fetchData(`?${query.toString()}`);
       });
 
+      document.getElementById('checkStatusButton').addEventListener('click', function() {
+        const statusDate = document.getElementById('statusDate').value;
+        if (statusDate) {
+          checkStoreStatus(statusDate);
+        }
+      });
+
+      // Initialize the store status circles
+      const storeStatusContainer = document.getElementById('storeStatus');
+      storeNumbers.forEach(storeNumber => {
+        const storeDiv = document.createElement('div');
+        const statusCircle = document.createElement('span');
+        const storeText = document.createTextNode(storeNumber);
+        statusCircle.classList.add('grey'); // Initially grey
+        storeDiv.appendChild(statusCircle);
+        storeDiv.appendChild(storeText);
+        storeStatusContainer.appendChild(storeDiv);
+      });
+
       // Define the nextPage and prevPage functions so they are available globally
       window.nextPage = nextPage;
       window.prevPage = prevPage;
-      window.checkDate = checkDate;
+      window.showTab = showTab;
     });
   </script>
 </body>
