@@ -204,7 +204,7 @@
             row.slice(2).forEach((cell, index) => {
               const detail = document.createElement('div');
               detail.className = 'card-detail';
-              const dayLabel = getHeaderLabel(index + 2);
+              const dayLabel = getHeaderLabel(index + 3);
               const dateLabel = getDateLabel(startDate, index);
               detail.innerHTML = `<strong>${dayLabel} (${dateLabel}):</strong> ${cell}`;
               if (index === 6 || index === 13) { // Grey out Sundays
@@ -226,11 +226,11 @@
       function getHeaderLabel(index) {
         const headers = [
           "Store Number", "Start Date", "Employee Name",
-          "Monday (Week 1)", "Tuesday (Week 1)", "Wednesday (Week 1)",
-          "Thursday (Week 1)", "Friday (Week 1)", "Saturday (Week 1)",
-          "Sunday (Week 1)", "Monday (Week 2)", "Tuesday (Week 2)",
-          "Wednesday (Week 2)", "Thursday (Week 2)", "Friday (Week 2)",
-          "Saturday (Week 2)", "Sunday (Week 2)"
+          "Monday", "Tuesday", "Wednesday",
+          "Thursday", "Friday", "Saturday",
+          "Sunday", "Monday", "Tuesday",
+          "Wednesday", "Thursday", "Friday",
+          "Saturday", "Sunday"
         ];
         return headers[index];
       }
