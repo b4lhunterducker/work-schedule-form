@@ -48,7 +48,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      background-color: #218f50;
+      background-color: #324ea8;
       color: white;
     }
     .pageButton:disabled {
@@ -62,7 +62,7 @@
       background-color: #218f50;
       color: white;
       cursor: pointer;
-      width: 100%;
+      width: 20%;
       box-sizing: border-box;
     }
     #searchButton:hover {
@@ -74,9 +74,7 @@
       border-radius: 5px;
       cursor: pointer;
       background-color: #218f50;
-      color: white;
-      margin-bottom: 100px;
-    }
+      color: white;    }
     .error-message {
       color: red;
       font-weight: bold;
@@ -180,7 +178,7 @@
       width: 48%;
     }
     .tabs button.active {
-      background-color: #218f50;
+      background-color: #324ea8;
     }
     .tab-content {
       display: none;
@@ -190,10 +188,32 @@
       justify-content: center;
       text-align: center;
     }
+
+    #key, td, th{
+      text-align: center;
+      padding: 2px;
+    }
+
+    #key {
+      align-items: center;
+      margin-bottom: 75px;
+      margin-top: 30px;
+      justify-content: center;
+      display: flex;
+    }
+
+    #logo {
+      max-width: 15%;
+      height: auto;
+      margin: 0 auto;
+      bottom-padding: 50px;
+    }
+
   </style>
 </head>
 <body>
   <header>
+    <img id="logo" src="Brakes-4-Less-Logo-1.png">
     <h1>Schedule Management</h1>
   </header>
   <br>
@@ -280,6 +300,16 @@
       <label for="statusDate">Select Week Starting Date</label>
       <input type="date" id="statusDate" name="statusDate">
       <button id="checkStatusButton" class="checkStatusButton">Check Status</button>
+      <table id="key">
+        <tr>
+          <td style="background-color: green">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>- Store has submitted a schedule</td>
+        </tr>
+        <tr>
+          <td style="background-color: red">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Store has not submitted a schedule</td>
+        </tr>
+      </table>
       <div class="store-status" id="storeStatus">
         <!-- Store status circles will be generated here -->
       </div>
@@ -287,6 +317,24 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      const storeNumberSelect = document.getElementById('storeNumber');
+      const districtManagerSelect = document.getElementById('districtManager');
+
+      storeNumberSelect.addEventListener('change', function() {
+        if (storeNumberSelect.value) {
+          districtManagerSelect.disabled = true;
+        } else {
+          districtManagerSelect.disabled = false;
+        }
+      });
+
+      districtManagerSelect.addEventListener('change', function() {
+        if (districtManagerSelect.value) {
+          storeNumberSelect.disabled = true;
+        } else {
+          storeNumberSelect.disabled = false;
+        }
+      });
       const districtManagerStores = {
         '1': ['317', '318'],
         '2': ['307', '309'],
